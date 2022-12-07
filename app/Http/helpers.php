@@ -1,14 +1,17 @@
 <?php
 
 use App\Models\Cart;
-use App\Models\Inventory;
 use App\Models\Product;
+use App\Models\Category;
+use App\Models\Inventory;
 
 function cartcount()
 {
     return Cart::where('user_id', auth()->id())->count();
 }
-
+function cat(){
+    return $categories = Category::all();
+}
 function cart_total($product_id, $quantity)
 {
     $product = Product::find($product_id);

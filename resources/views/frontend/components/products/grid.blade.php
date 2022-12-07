@@ -1,4 +1,4 @@
-<div class="grid">
+<div class="grid clearfix">
     <div class="product-pic">
         <img src="{{ asset('dashboard/uplaods/product_thumbnail') }}/{{ $product->thumbnail }}" alt="">
         @if ($product->discounted_price)

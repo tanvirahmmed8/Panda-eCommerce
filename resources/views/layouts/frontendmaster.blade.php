@@ -64,13 +64,13 @@
 
         <!-- header_section - start
         ================================================== -->
-        <header class="header_section header-style-no-collapse">
+        <header class="header_section @if (Route::current()->getName() == 'index') header-style-no-collapse @endif">
             <div class="header_top">
                 <div class="container">
                     <div class="row align-items-center">
                         <div class="col col-md-6">
                             <ul class="header_select_options ul_li">
-                                <li>
+                                {{-- <li>
                                     <div class="select_option">
                                         <div class="flug_wrap">
                                             <img src="{{ asset('frontend') }}/images/flug/flug_uk.png" alt="image_not_found">
@@ -83,7 +83,7 @@
                                             <option value="4">Hebrew</option>
                                         </select>
                                     </div>
-                                </li>
+                                </li> --}}
 
                             </ul>
                         </div>
@@ -106,26 +106,26 @@
                             </div>
                         </div>
                         <div class="col col-lg-6 col-md-6 col-sm-12">
-                            <form action="#">
-                                <div class="advance_serach">
-                                    <div class="select_option mb-0 clearfix">
-                                        <select class="form-select border-0" style="box-shadow:none">
-                                            <option data-display="All Categories">Select A Category</option>
-                                            <option value="1">New Arrival Products</option>
-                                            <option value="2">Most Popular Products</option>
-                                            <option value="3">Deals of the day</option>
-                                            <option value="4">Mobile Accessories</option>
-                                            <option value="5">Computer Accessories</option>
-                                            <option value="6">Consumer Electronics</option>
-                                            <option value="7">Automobiles & Motorcycles</option>
-                                        </select>
-                                    </div>
-                                    <div class="form_item">
-                                        <input type="search" name="search" placeholder="Search Prudcts...">
-                                        <button type="submit" class="search_btn"><i class="far fa-search"></i></button>
-                                    </div>
+                            <div class="advance_serach">
+                                <div class="select_option mb-0 clearfix">
+                                    <select class="form-select border-0" style="box-shadow:none">
+                                        <option data-display="All Categories">Select A Category</option>
+                                        <option >New Arrival Products</option>
+                                        <option value="2">Most Popular Products</option>
+                                        <option value="3">Deals of the day</option>
+                                        <option value="4">Mobile Accessories</option>
+                                        <option value="5">Computer Accessories</option>
+                                        <option value="6">Consumer Electronics</option>
+                                        <option value="7">Automobiles & Motorcycles</option>
+                                    </select>
                                 </div>
-                            </form>
+                                <div class="form_item">
+                                    <form action="{{ route('shop') }}" method="GET">
+                                        <input type="text" name="search" placeholder="Search Prudcts..." value="@isset($search) {{ $search }} @endisset">
+                                        <button type="submit" class="search_btn"><i class="far fa-search"></i></button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                         <div class="col col-lg-3 col-md-3 col-sm-12">
                             <button class="mobile_menu_btn2 navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main_menu_dropdown" aria-controls="main_menu_dropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -140,10 +140,12 @@
                                         </a>
                                     </li> --}}
                                     <li>
-                                        <span class="cart_icon">
-                                            <i class="icon icon-ShoppingCart"></i>
-                                            <small class="cart_counter">{{ cartcount() }}</small>
-                                        </span>
+                                        <a href="{{ route('cart') }}">
+                                            <span class="cart_icon">
+                                                <i class="icon icon-ShoppingCart"></i>
+                                                <small class="cart_counter">{{ cartcount() }}</small>
+                                            </span>
+                                        </a>
                                     </li>
                                </ul>
                             </button>
@@ -161,20 +163,12 @@
                                     <svg role="img" xmlns="http://www.w3.org/2000/svg" width="32px" height="32px" viewBox="0 0 24 24" aria-labelledby="statsIconTitle" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none" color="#000"> <title id="statsIconTitle">Stats</title> <path d="M6 7L15 7M6 12L18 12M6 17L12 17"/> </svg>
                                     Browse categories
                                 </button>
-                                <div class="allcategories_collapse" id="allcategories_collapse">
+                                <div class="allcategories_collapse collapse" id="allcategories_collapse">
                                     <div class="card card-body">
                                         <ul class="allcategories_list ul_li_block">
-                                            <li><a href="shop_grid.html"><i class="icon icon-Starship"></i> New Arrival Products</a></li>
-                                            {{-- <li><a href="shop_list.html"><i class="icon icon-WorldWide"></i> Most Popular Products</a></li>
-                                            <li><a href="shop_grid.html"><i class="icon icon-Star"></i> Deals of the day</a></li>
-                                            <li><a href="shop_list.html"><i class="icon icon-Phone"></i> Mobile Accessories</a></li>
-                                            <li><a href="shop_grid.html"><i class="icon icon-DesktopMonitor"></i> Computer Accessories</a></li>
-                                            <li><a href="shop_list.html"><i class="icon icon-Bulb"></i> Consumer Electronics</a></li>
-                                            <li><a href="shop_grid.html"><i class="icon icon-Car"></i> Automobiles & Motorcycles</a></li>
-                                            <li><a href="shop_list.html"><i class="icon icon-Phone"></i> Mobile Accessories</a></li>
-                                            <li><a href="shop_grid.html"><i class="icon icon-DesktopMonitor"></i> Computer Accessories</a></li>
-                                            <li><a href="shop_list.html"><i class="icon icon-Bulb"></i> Consumer Electronics</a></li>
-                                            <li><a href="shop_grid.html"><i class="icon icon-Car"></i> Automobiles & Motorcycles</a></li> --}}
+                                            @foreach (cat() as $cat)
+                                                <li><a href="{{ route('search.category', $cat->id) }}"><i class="icon icon-Starship"></i> {{ $cat->category_name }}</a></li>
+                                            @endforeach
                                         </ul>
                                     </div>
                                 </div>
@@ -190,7 +184,7 @@
                                     <ul class="main_menu_list ul_li">
                                         <li><a class="nav-link" href="{{ route('index') }}">Home</a></li>
                                         <li><a class="nav-link" href="{{ route('about') }}">About us</a></li>
-                                        <li><a class="nav-link" href="#">Shop</a></li>
+                                        <li><a class="nav-link" href="{{ route('shop') }}">Shop</a></li>
                                         <li><a class="nav-link" href="{{ route('contact') }}">Contact Us</a></li>
                                     </ul>
                                 </div>

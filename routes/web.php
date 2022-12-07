@@ -40,6 +40,8 @@ Route::get('/cart', [ForntendController::class, 'cart'])->name('cart');
 Route::get('/checkout', [ForntendController::class, 'checkout'])->name('checkout');
 Route::post('/checkoutpost', [ForntendController::class, 'checkoutpost'])->name('checkoutpost');
 Route::post('/getcitylist', [ForntendController::class, 'getcitylist'])->name('getcitylist');
+Route::get('/shop', [ForntendController::class, 'shop'])->name('shop');
+Route::get('/search-category/{id}', [ForntendController::class, 'search_category'])->name('search.category');
 Route::get('/contact-us', [ForntendController::class, 'contact'])->name('contact');
 Route::post('/contact-post', [ForntendController::class, 'contact_post'])->name('contact.post');
 Route::get('/login-register', [ForntendController::class, 'login_register'])->name('login.register');

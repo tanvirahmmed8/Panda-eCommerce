@@ -15,9 +15,11 @@ use App\Models\Inventory;
 use App\Mail\ContactMessage;
 use Illuminate\Http\Request;
 use App\Models\Invoice_detail;
+use App\Models\ResentlyViewProduct;
 use Khsing\World\Models\Country;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 
 class ForntendController extends Controller
 {
@@ -64,9 +66,25 @@ class ForntendController extends Controller
             $products[] = $p;
         }
         // return $topProducts; //compact
-
+        $resently_view_products = ResentlyViewProduct::where('session_id', Session::get('session_id'))->latest()->limit(6)->get();
         // best sell product end
-        return view('frontend.index', compact('random','new_products','topcats','categories','brands','policeis','products','inventories','latest_products'));
+        return view('frontend.index', compact('random','new_products','topcats','categories','brands','policeis','products','inventories','latest_products','resently_view_products'));
+    }
+    public function shop(Request $request){
+        $search = $request['search'] ?? "";
+        if ($search != "") {
+            $products = Product::where('name','LIKE',"%$search%")->paginate(6);
+        } else {
+            $products = Product::paginate(6);
+        }
+
+        $inventories = Inventory::all();
+        return view('frontend.shop', compact('products','inventories','search'));
+    }
+    public function search_category($id){
+        $products = Product::where('category_id', $id)->paginate(6);
+        $inventories = Inventory::all();
+        return view('frontend.search_category', compact('products','inventories'));
     }
     public function cart(){
         return view('frontend.cart');
@@ -236,6 +254,28 @@ class ForntendController extends Controller
         $product = Product::find($id);
         $related_product = Product::where('category_id', $product->category_id)->where('id', '!=', $id)->limit(6)->get();
         $inventories = Inventory::all();
+
+        // resently_view_products code start
+        if(empty(Session::get('session_id'))){
+            $session_id = rand(00000000, 99999999);
+        }else{
+            $session_id = Session::get('session_id');
+        }
+        Session::put('session_id', $session_id);
+        $r_v_p_count = DB::table('resently_view_products')->where([
+            'product_id' => $id,
+            'session_id' => $session_id
+            ])->count();
+
+            if($r_v_p_count == 0){
+                DB::table('resently_view_products')->insert([
+                    'product_id' => $id,
+                    'session_id' => $session_id,
+                    'created_at' => Carbon::now()
+                ]);
+            }
+            // resently_view_products code end
+
         return view('frontend.single_product',compact('product','related_product','inventories'));
     }
 
