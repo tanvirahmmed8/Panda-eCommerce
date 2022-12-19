@@ -14,6 +14,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ForntendController;
+use App\Http\Controllers\RatingController;
 use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\VariationController;
 use App\Http\Controllers\SslCommerzPaymentController;
@@ -44,7 +45,7 @@ Route::get('/shop', [ForntendController::class, 'shop'])->name('shop');
 Route::get('/search-category/{id}', [ForntendController::class, 'search_category'])->name('search.category');
 Route::get('/contact-us', [ForntendController::class, 'contact'])->name('contact');
 Route::post('/contact-post', [ForntendController::class, 'contact_post'])->name('contact.post');
-Route::get('/login-register', [ForntendController::class, 'login_register'])->name('login.register');
+Route::get('/login-register', [ForntendController::class, 'login_register'])->name('login.register')->middleware(['guest']);
 Route::get('/team', [ForntendController::class, 'team']);
 Route::post('/team/post', [ForntendController::class, 'teampost']);
 Route::get('/team/edit/{id}', [ForntendController::class, 'teamedit']);
@@ -54,7 +55,7 @@ Route::get('/team/restore/{id}', [ForntendController::class, 'teamrestore']);
 Route::get('/team/forcedelete/{id}', [ForntendController::class, 'teamforcedelete']);
 // ptoduct view
 Route::get('/single-product/{id}', [ForntendController::class, 'single_product'])->name('single.product');
-Route::get('/test', [ForntendController::class, 'test'])->name('test');
+Route::post('/rating', [RatingController::class, 'rating'])->name('rating');
 
 
 // Auth::routes();
@@ -63,11 +64,13 @@ Auth::routes(['register' => false]);
 Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware(['auth', 'verified']);
 Route::post('/profileupdate', [HomeController::class, 'profileupdate'])->name('profileupdate')->middleware(['auth', 'verified']);
 
+
 // ProfileController Start
-Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
+Route::get('/profile', [ProfileController::class, 'profile'])->name('profile')->middleware(['password.confirm']);
 Route::post('/profile/photo/upload', [ProfileController::class, 'profilephotoupload'])->name('profile.photo.upload');
 Route::post('/cover/photo/upload', [ProfileController::class, 'coverphoto'])->name('cover.photo.upload');
 Route::post('/password/change', [ProfileController::class, 'password_change'])->name('password.change');
+
 
 // CustomerController
 Route::post('/customer/login', [CustomerController::class, 'customer_login'])->name('customer.login');
@@ -89,9 +92,9 @@ Route::post('/email/verification-notification', function (Request $request) {
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 // VendorController Start
-Route::get('vendor/registration', [VendorController::class, 'vendor_registration'])->name('vendor.registration');
+Route::get('vendor/registration', [VendorController::class, 'vendor_registration'])->name('vendor.registration')->middleware(['guest']);
 Route::post('vendor/registration', [VendorController::class, 'vendor_registration_post'])->name('vendor.registration.post');
-Route::get('vendor/login', [VendorController::class, 'vendor_login'])->name('vendor.login');
+Route::get('vendor/login', [VendorController::class, 'vendor_login'])->name('vendor.login')->middleware(['guest']);
 Route::post('vendor/login', [VendorController::class, 'vendor_login_post'])->name('vendor.login.post');
 // VendorController end
 

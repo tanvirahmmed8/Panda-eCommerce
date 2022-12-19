@@ -7,6 +7,7 @@ use App\Models\Cart;
 use App\Models\Team;
 use App\Models\Brand;
 use App\Models\Policy;
+use App\Models\Rating;
 use App\Models\Invoice;
 use App\Models\Product;
 use Khsing\World\World;
@@ -15,9 +16,9 @@ use App\Models\Inventory;
 use App\Mail\ContactMessage;
 use Illuminate\Http\Request;
 use App\Models\Invoice_detail;
-use App\Models\ResentlyViewProduct;
 use Khsing\World\Models\Country;
 use Illuminate\Support\Facades\DB;
+use App\Models\ResentlyViewProduct;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
@@ -66,8 +67,12 @@ class ForntendController extends Controller
             $products[] = $p;
         }
         // return $topProducts; //compact
-        $resently_view_products = ResentlyViewProduct::where('session_id', Session::get('session_id'))->latest()->limit(6)->get();
         // best sell product end
+
+        // Vehicle::where('created_at', '<', Carbon::now()->subDays(15))->delete();
+        ResentlyViewProduct::where('created_at', '<', Carbon::now()->subMinutes(300))->delete();
+        $resently_view_products = ResentlyViewProduct::where('session_id', Session::get('session_id'))->latest()->limit(6)->get();
+
         return view('frontend.index', compact('random','new_products','topcats','categories','brands','policeis','products','inventories','latest_products','resently_view_products'));
     }
     public function shop(Request $request){
@@ -254,6 +259,15 @@ class ForntendController extends Controller
         $product = Product::find($id);
         $related_product = Product::where('category_id', $product->category_id)->where('id', '!=', $id)->limit(6)->get();
         $inventories = Inventory::all();
+        $ratings = Rating::where('product_id', $id)->with('user')->get();
+        $rating_sum = Rating::where('product_id', $id)->sum('rating');
+        if ($ratings->count() > 0) {
+            $avg_rating = $rating_sum/$ratings->count();
+        } else {
+            $avg_rating = 0;
+        }
+
+
 
         // resently_view_products code start
         if(empty(Session::get('session_id'))){
@@ -276,7 +290,7 @@ class ForntendController extends Controller
             }
             // resently_view_products code end
 
-        return view('frontend.single_product',compact('product','related_product','inventories'));
+        return view('frontend.single_product',compact('product','related_product','inventories','ratings','avg_rating'));
     }
 
 

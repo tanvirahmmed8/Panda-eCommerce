@@ -1,5 +1,6 @@
-@extends('layouts.frontendmaster')
 
+
+@extends('layouts.frontendmaster')
 @section('content')
 <!-- breadcrumb_section - start
             ================================================== -->
@@ -83,13 +84,18 @@
                                 <p>{{ $product->short_description }}</p>
                                 <div class="item_review">
                                     <ul class="rating_star ul_li">
+                                        @for ($i = 1; $i <= number_format($avg_rating); $i++)
+                                        <li><i class="fas fa-star full"></i></li>
+                                        @endfor
+                                        @for ($j = number_format($avg_rating)+1; $j <= 5; $j++)
                                         <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star-half-alt"></i></li>
+                                        @endfor
                                     </ul>
-                                    <span class="review_value">3 Rating(s)</span>
+                                    @if ($avg_rating > 0)
+                                    <span class="review_value">{{ $ratings->count() }} Rating(s)</span>
+                                    @else
+                                    <span class="review_value">No Rating(s)</span>
+                                    @endif
                                 </div>
 
                                 <div class="item_price">
@@ -121,7 +127,7 @@
                             </li>
                             <li>
                                 <button data-bs-toggle="tab" data-bs-target="#reviews_tab" type="button" role="tab" aria-controls="reviews_tab" aria-selected="false">
-                                Reviews(2)
+                                Reviews({{ $ratings->count() }})
                                 </button>
                             </li>
                         </ul>
@@ -142,13 +148,20 @@
                                         <div class="col-md-12 order-last">
                                             <div class="average_rating_text">
                                                 <ul class="rating_star ul_li_center">
+                                                    @for ($i = 1; $i <= number_format($avg_rating); $i++)
+                                                    <li><i class="fas fa-star full"></i></li>
+                                                    @endfor
+
+                                                    @for ($j = number_format($avg_rating)+1; $j <= 5; $j++)
                                                     <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
+                                                    @endfor
                                                 </ul>
                                                 <p class="mb-0">
-                                                Average Star Rating: <span>4 out of 5</span> (2 vote)
+                                                    @if ($avg_rating > 0)
+                                                    Average Star Rating: <span>{{ $avg_rating }} out of 5</span> ({{ $ratings->count() }} vote)
+                                                    @else
+                                                    Average Star Rating: No Rating.
+                                                    @endif
                                                 </p>
                                             </div>
                                         </div>
@@ -156,28 +169,35 @@
                                 </div>
 
                                 <div class="customer_reviews">
-                                    <h4 class="reviews_tab_title">2 reviews for this product</h4>
-                                    <div class="customer_review_item clearfix">
-                                        <div class="customer_image">
-                                            <img src="{{ asset('frontend') }}/images/team/team_1.jpg" alt="image_not_found">
-                                        </div>
-                                        <div class="customer_content">
-                                            <div class="customer_info">
-                                                <ul class="rating_star ul_li">
+                                    <h4 class="reviews_tab_title">{{ $ratings->count() }} reviews for this product</h4>
+                                   @foreach ($ratings as $rating)
+                                     <div class="customer_review_item clearfix">
+                                         <div class="customer_image">
+                                            @if ($rating->user->profile_photo)
+                                            <img src="{{ asset('dashboard/uplaods/profile_photos') }}/{{ $rating->user->profile_photo }}" alt="image_not_found">
+                                            @else
+                                            <img src="{{ Avatar::create(Str::upper($rating->user->name))->toBase64() }}" alt="image_not_found">
+                                            @endif
+                                         </div>
+                                         <div class="customer_content">
+                                             <div class="customer_info">
+                                                 <ul class="rating_star ul_li">
+                                                    @for ($i = 1; $i <= number_format($rating->rating); $i++)
+                                                    <li><i class="fas fa-star full"></i></li>
+                                                    @endfor
+                                                    @for ($j = number_format($rating->rating)+1; $j <= 5; $j++)
                                                     <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star-half-alt"></i></li>
-                                                </ul>
-                                                <h4 class="customer_name">Aonathor troet</h4>
-                                                <span class="comment_date">JUNE 2, 2021</span>
-                                            </div>
-                                            <p class="mb-0">Nice Product, I got one in black. Goes with anything!</p>
-                                        </div>
-                                    </div>
+                                                    @endfor
+                                                 </ul>
+                                                 <h4 class="customer_name">{{ $rating->user->name }}</h4>
+                                                 <span class="comment_date">{{ $rating->created_at }}</span>
+                                             </div>
+                                             <p class="mb-0">{{ $rating->comment }}</p>
+                                         </div>
+                                     </div>
+                                   @endforeach
 
-                                    <div class="customer_review_item clearfix">
+                                    {{-- <div class="customer_review_item clearfix">
                                         <div class="customer_image">
                                             <img src="{{ asset('frontend') }}/images/team/team_2.jpg" alt="image_not_found">
                                         </div>
@@ -197,26 +217,25 @@
                                             Great product quality, Great Design and Great Service.
                                             </p>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
-
+                                <hr>
                                 <div class="customer_review_form">
-                                    <h4 class="reviews_tab_title">Add a review</h4>
-                                    <form action="#">
-                                        <div class="form_item">
-                                            <input type="text" name="name" placeholder="Your name*">
-                                        </div>
-                                        <div class="form_item">
-                                            <input type="email" name="email" placeholder="Your Email*">
-                                        </div>
+                                    <h4 class="reviews_tab_title text-center">Add a review</h4>
+                                    <form action="{{ route('rating') }}" method="POST">
+                                        @csrf
+                                        <input type="text" hidden name="product_id" value="{{ $product->id }}">
                                         <div class="your_ratings">
-                                            <h5>Your Ratings:</h5>
-                                            <button type="button"><i class="fal fa-star"></i></button>
-                                            <button type="button"><i class="fal fa-star"></i></button>
-                                            <button type="button"><i class="fal fa-star"></i></button>
-                                            <button type="button"><i class="fal fa-star"></i></button>
-                                            <button type="button"><i class="fal fa-star"></i></button>
+                                            <h4>Your Ratings:</h4>
+                                            <div class="rating">
+                                                <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
+                                                <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
+                                                <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
+                                                <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
+                                                <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                                              </div>
                                         </div>
+
                                         <div class="form_item">
                                             <textarea name="comment" placeholder="Your Review*"></textarea>
                                         </div>

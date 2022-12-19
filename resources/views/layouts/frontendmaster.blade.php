@@ -41,7 +41,48 @@
 
     <!-- custom - css include -->
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/css/style.css">
+    <style media="screen">
+        .rating {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: left;
+        margin-left: 15px;
+        }
+
+
+        .rating > input{ display:none;}
+
+        .rating > label {
+        position: relative;
+        width: 1.1em;
+        font-size: 50px;
+        color: #cd1212;
+        cursor: pointer;
+        }
+
+        .rating > label::before{
+        content: "\2605";
+        position: absolute;
+        opacity: 0;
+        }
+
+        .rating > label:hover:before,
+        .rating > label:hover ~ label:before {
+        opacity: 1 !important;
+        }
+
+        .rating > input:checked ~ label:before{
+        opacity:1;
+        }
+
+        .rating:hover > input:checked ~ label:before{ opacity: 0.4; }
+
+
+
+
+          </style>
     @livewireStyles
+
 </head>
 
 <body>

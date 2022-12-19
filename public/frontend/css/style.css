@@ -4032,25 +4032,33 @@ hr {
 }
 .small_product_layout .item_title {
   font-size: 16px;
+  text-decoration: none;
   margin-bottom: 5px;
 }
 .small_product_layout .item_title a {
   color: #252525;
+  text-decoration: none;
+}
+.small_product_layout .item_title a abbr{
+    cursor: pointer;
+    text-decoration: none;
+}
+.small_product_layout .item_title a abbr:hover{
+    cursor: pointer;
+    text-decoration: none;
 }
 .small_product_layout .item_title a:hover {
   color: #f02757;
+  cursor: pointer;
 }
 .small_product_layout .rating_star {
-  font-size: 10px;
-  color: #ffc21f;
+  font-size: 12px;
+  /* color: #ffc21f; */
   margin-bottom: 15px;
 }
-.small_product_layout .rating_star li {
-  color: #cd1212;
-}
 .small_product_layout .rating_star i {
-  font-size: 10px;
-  color: #fbbe32;
+  font-size: 12px;
+  /* color: #fbbe32; */
   display: inline-block;
 }
 .small_product_layout .rating_star > i + i {
@@ -4178,8 +4186,8 @@ hr {
   color: #252525;
 }
 .shop-product-area .product-area .rating {
-  font-size: 10px;
-  color: #ffc21f;
+  font-size: 15px;
+  /* color: #ffc21f; */
   margin-bottom: 14px;
 }
 .shop-product-area .product-area .price {
@@ -4310,8 +4318,8 @@ hr {
   color: #252525;
 }
 .product-area-row .rating {
-  font-size: 10px;
-  color: #ffc21f;
+  font-size: 15px;
+  /* color: #ffc21f; */
   margin-bottom: 14px;
 }
 .product-area-row .price {
@@ -4953,9 +4961,7 @@ hr {
 .product_details_content .rating_star {
   margin-right: 6px;
 }
-.product_details_content .rating_star li {
-  color: #cd1212;
-}
+
 .product_details_content .item_price span {
   font-size: 22px;
   font-weight: 500;
@@ -5130,6 +5136,9 @@ hr {
 }
 .average_rating_text .rating_star li {
   font-size: 24px;
+  /* color: #cd1212; */
+}
+.full {
   color: #cd1212;
 }
 .average_rating_text p {
@@ -5214,9 +5223,7 @@ hr {
           align-items: center;
   margin: 15px 0 5px;
 }
-.customer_review_item .rating_star li {
-  color: #cd1212;
-}
+
 .customer_review_item .customer_name {
   margin: 0 10px;
   font-size: 18px;
@@ -6286,8 +6293,8 @@ hr {
   color: #252525;
 }
 .product-area .rating {
-  font-size: 10px;
-  color: #ffc21f;
+  font-size: 15px;
+  /* color: #ffc21f; */
   margin-bottom: 14px;
 }
 .product-area .price {

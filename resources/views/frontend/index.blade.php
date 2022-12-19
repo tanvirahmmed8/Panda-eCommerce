@@ -2,74 +2,6 @@
 
 @section('content')
 
-<!-- sidebar cart - start
-================================================== -->
-{{-- <div class="sidebar-menu-wrapper">
-    <div class="cart_sidebar">
-        <button type="button" class="close_btn"><i class="fal fa-times"></i></button>
-        <ul class="cart_items_list ul_li_block mb_30 clearfix">
-            <li>
-                <div class="item_image">
-                    <img src="{{ asset('frontend') }}/images/cart/cart_img_1.jpg" alt="image_not_found">
-                </div>
-                <div class="item_content">
-                    <h4 class="item_title">Yellow Blouse</h4>
-                    <span class="item_price">$30.00</span>
-                </div>
-                <button type="button" class="remove_btn"><i class="fal fa-trash-alt"></i></button>
-            </li>
-            <li>
-                <div class="item_image">
-                    <img src="{{ asset('frontend') }}/images/cart/cart_img_2.jpg" alt="image_not_found">
-                </div>
-                <div class="item_content">
-                    <h4 class="item_title">Yellow Blouse</h4>
-                    <span class="item_price">$30.00</span>
-                </div>
-                <button type="button" class="remove_btn"><i class="fal fa-trash-alt"></i></button>
-            </li>
-            <li>
-                <div class="item_image">
-                    <img src="{{ asset('frontend') }}/images/cart/cart_img_3.jpg" alt="image_not_found">
-                </div>
-                <div class="item_content">
-                    <h4 class="item_title">Yellow Blouse</h4>
-                    <span class="item_price">$30.00</span>
-                </div>
-                <button type="button" class="remove_btn"><i class="fal fa-trash-alt"></i></button>
-            </li>
-        </ul>
-
-        <ul class="total_price ul_li_block mb_30 clearfix">
-            <li>
-                <span>Subtotal:</span>
-                <span>$90</span>
-            </li>
-            <li>
-                <span>Vat 5%:</span>
-                <span>$4.5</span>
-            </li>
-            <li>
-                <span>Discount 20%:</span>
-                <span>- $18.9</span>
-            </li>
-            <li>
-                <span>Total:</span>
-                <span>$75.6</span>
-            </li>
-        </ul>
-
-        <ul class="btns_group ul_li_block clearfix">
-            <li><a class="btn btn_primary" href="cart.html">View Cart</a></li>
-            <li><a class="btn btn_secondary" href="checkout.html">Checkout</a></li>
-        </ul>
-    </div>
-
-    <div class="cart_overlay"></div>
-</div> --}}
-<!-- sidebar cart - end
-================================================== -->
-
 <!-- slider_section - start
 ================================================== -->
 <section class="slider_section">
@@ -214,13 +146,17 @@
                                             <h3 class="item_title">
                                                 <a href="{{ route('single.product', $latest_product->id) }}"><abbr title="{{ $latest_product->name }}">{{ Str::limit($latest_product->name, 10, '...') }}</abbr></a>
                                             </h3>
+                                            @php
+                                                $lat_avg = number_format(rating($latest_product->id));
+                                            @endphp
                                             <ul class="rating_star ul_li">
                                                 <li>
+                                                    @for ($i = 1; $i <= $lat_avg; $i++)
+                                                    <i class="fas fa-star full"></i>
+                                                    @endfor
+                                                    @for ($j = $lat_avg+1; $j <= 5; $j++)
                                                     <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star-half-alt"></i>
+                                                    @endfor
                                                 </li>
                                             </ul>
                                             <div class="item_price">
@@ -429,22 +365,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        {{-- <div class="viewed_product_item">
-                            <div class="item_image">
-                                <img src="{{ asset('frontend') }}/images/viewed_products/viewed_product_img_2.png" alt="image_not_found">
-                            </div>
-                            <div class="item_content">
-                                <h3 class="item_title">PC & Laptop</h3>
-                                <ul class="ul_li_block">
-                                    <li><a href="#!">Computers</a></li>
-                                    <li><a href="#!">Laptop</a></li>
-                                    <li><a href="#!">Macbook</a></li>
-                                    <li><a href="#!">Accessories</a></li>
-                                    <li><a href="#!">More...</a></li>
-                                </ul>
-                            </div>
-                        </div> --}}
                     </div>
                 @endforeach
             </div>

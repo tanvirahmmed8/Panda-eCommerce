@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Cart;
+use App\Models\Rating;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Inventory;
@@ -29,6 +30,16 @@ function get_inventory($product_id, $size_id, $color_id)
         'size_id' => $size_id,
         'color_id' => $color_id
     ])->first()->quantity;
+}
+
+function rating($id){
+    $ratings = Rating::where('product_id', $id)->with('user')->get();
+        $rating_sum = Rating::where('product_id', $id)->sum('rating');
+        if ($ratings->count() > 0) {
+            return $avg_rating = $rating_sum/$ratings->count();
+        } else {
+            return $avg_rating = 0;
+        }
 }
 
 function ordertotal($discount, $subtotal, $delivery_charge){

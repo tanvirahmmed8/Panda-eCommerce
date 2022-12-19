@@ -11,12 +11,16 @@
     <div class="details">
         <h4><a href="{{ route('single.product', $product->id) }}">{{ Str::limit($product->name, 15, '...') }}</a></h4>
         <p><a href="{{ route('single.product', $product->id) }}">{{ Str::limit($product->short_description, 60, '...') }} </a></p>
+        @php
+            $avg = number_format(rating($product->id));
+        @endphp
         <div class="rating">
+            @for ($i = 1; $i <= $avg; $i++)
+            <i class="fas fa-star full"></i>
+            @endfor
+            @for ($j = $avg+1; $j <= 5; $j++)
             <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star-half-alt"></i>
+            @endfor
         </div>
         <span class="price">
             @if ($product->discounted_price)
