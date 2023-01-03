@@ -92,7 +92,7 @@
                 <div class="best-selling-products">
                     <div class="sec-title-link">
                         <h3>Best selling</h3>
-                        <div class="view-all"><a href="#">View all<i class="fal fa-long-arrow-right"></i></a></div>
+                        <div class="view-all"><a href="{{ route('shop') }}">View all<i class="fal fa-long-arrow-right"></i></a></div>
                     </div>
                     <div class="product-area clearfix">
                         @foreach ($products as $product)
@@ -155,7 +155,7 @@
                                                     <i class="fas fa-star full"></i>
                                                     @endfor
                                                     @for ($j = $lat_avg+1; $j <= 5; $j++)
-                                                    <i class="fas fa-star"></i>
+                                                    <i class="fa fa-star"></i>
                                                     @endfor
                                                 </li>
                                             </ul>
@@ -341,7 +341,7 @@
 <!-- brand_section - end
 ================================================== -->
 
-<!-- viewed_products_section - start
+<!-- recently_viewed_products_section - start
 ================================================== -->
 <section class="viewed_products_section section_space">
     <div class="container">
@@ -351,7 +351,7 @@
         </div>
 
         <div class="viewed_products_wrap arrows_topright">
-            <div class="viewed_products_carousel row" data-slick='{"dots": false}'>
+            <div class="viewed_products_carousel recently_viewed row" data-slick='{"dots": false}'>
                 @foreach ($resently_view_products as $resently_view_product)
                     <div class="slider_item col">
                         <div class="viewed_product_item">
@@ -375,7 +375,47 @@
         </div>
     </div>
 </section>
-<!-- viewed_products_section - end
+<!-- recently_viewed_products_section - end
+================================================== -->
+
+
+<!-- suggest_products_section - start
+================================================== -->
+@if ($suggest_products->count() > 0)
+    <section class="viewed_products_section section_space">
+        <div class="container">
+
+            <div class="sec-title-link mb-0">
+                <h3>Suggest Products</h3>
+            </div>
+
+            <div class="viewed_products_wrap arrows_topright">
+                <div class="viewed_products_carousel suggest_products row" data-slick='{"dots": false}'>
+                    @foreach ($suggest_products as $suggest_product)
+                        <div class="slider_item col">
+                            <div class="viewed_product_item">
+                                <div class="item_image">
+                                    <img src="{{ asset('dashboard/uplaods/product_thumbnail') }}/{{ $suggest_product->thumbnail }}" alt="image_not_found">
+                                </div>
+                                <div class="item_content">
+                                    <h3 class="item_title"><a href="{{ route('single.product', $suggest_product->id) }}">{{ Str::limit($suggest_product->name, 10, '...') }}</a></h3>
+                                    <div class="ul_li_block">
+                                        {{ Str::limit($suggest_product->short_description, 60, '...') }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+                <div class="carousel_nav">
+                    <button type="button" class="left_arrow"><i class="fal fa-long-arrow-alt-left"></i></button>
+                    <button type="button" class="right_arrow"><i class="fal fa-long-arrow-alt-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+@endif
+<!-- suggest_products_section - end
 ================================================== -->
 
 @endsection

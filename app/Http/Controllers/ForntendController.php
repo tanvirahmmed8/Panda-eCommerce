@@ -19,6 +19,7 @@ use App\Models\Invoice_detail;
 use Khsing\World\Models\Country;
 use Illuminate\Support\Facades\DB;
 use App\Models\ResentlyViewProduct;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
@@ -73,7 +74,16 @@ class ForntendController extends Controller
         ResentlyViewProduct::where('created_at', '<', Carbon::now()->subMinutes(300))->delete();
         $resently_view_products = ResentlyViewProduct::where('session_id', Session::get('session_id'))->latest()->limit(6)->get();
 
-        return view('frontend.index', compact('random','new_products','topcats','categories','brands','policeis','products','inventories','latest_products','resently_view_products'));
+        if(Cookie::get('suggest_product')){
+            // $latest_products = Product::limit(8)->latest()->get();
+            $suggest_products = Product::where('category_id', Cookie::get('suggest_product'))->limit(9)->get();
+        }else{
+            $suggest_products = collect();
+        }
+
+
+
+        return view('frontend.index', compact('random','new_products','topcats','categories','brands','policeis','products','inventories','latest_products','resently_view_products','suggest_products'));
     }
     public function shop(Request $request){
         $search = $request['search'] ?? "";
@@ -268,6 +278,7 @@ class ForntendController extends Controller
         }
 
 
+        Cookie::queue('suggest_product', $product->category_id, 4300);
 
         // resently_view_products code start
         if(empty(Session::get('session_id'))){
@@ -289,6 +300,8 @@ class ForntendController extends Controller
                 ]);
             }
             // resently_view_products code end
+
+
 
         return view('frontend.single_product',compact('product','related_product','inventories','ratings','avg_rating'));
     }

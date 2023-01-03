@@ -19,7 +19,7 @@
             <i class="fas fa-star full"></i>
             @endfor
             @for ($j = $avg+1; $j <= 5; $j++)
-            <i class="fas fa-star"></i>
+            <i class="fa fa-star"></i>
             @endfor
         </div>
         <span class="price">

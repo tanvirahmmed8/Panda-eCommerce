@@ -227,7 +227,7 @@
                                         <input type="text" hidden name="product_id" value="{{ $product->id }}">
                                         <div class="your_ratings">
                                             <h4>Your Ratings:</h4>
-                                            <div class="rating">
+                                            <div class="rating_get">
                                                 <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
                                                 <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
                                                 <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>

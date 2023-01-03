@@ -33,13 +33,13 @@ function get_inventory($product_id, $size_id, $color_id)
 }
 
 function rating($id){
-    $ratings = Rating::where('product_id', $id)->with('user')->get();
-        $rating_sum = Rating::where('product_id', $id)->sum('rating');
-        if ($ratings->count() > 0) {
-            return $avg_rating = $rating_sum/$ratings->count();
-        } else {
-            return $avg_rating = 0;
-        }
+    $ratings = Rating::where('product_id', $id)->get();
+    $rating_sum = Rating::where('product_id', $id)->sum('rating');
+    if ($ratings->count() > 0) {
+        return $avg_rating = $rating_sum/$ratings->count();
+    } else {
+        return $avg_rating = 0;
+    }
 }
 
 function ordertotal($discount, $subtotal, $delivery_charge){

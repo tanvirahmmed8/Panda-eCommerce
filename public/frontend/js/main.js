@@ -548,7 +548,7 @@
 
     // viewed products carousel - start
     // --------------------------------------------------
-    $('.viewed_products_carousel').slick({
+    $('.recently_viewed').slick({
         dots: true,
         speed: 1000,
         arrows: true,
@@ -575,6 +575,36 @@
         ]
     });
     // viewed products carousel - end
+    // --------------------------------------------------
+    // suggest_products carousel - start
+    // --------------------------------------------------
+    $('.suggest_products').slick({
+        dots: true,
+        speed: 1000,
+        arrows: true,
+        infinite: true,
+        slidesToShow: 3,
+        slidesToScroll: 3,
+        prevArrow: ".left_arrow",
+        nextArrow: ".right_arrow",
+        responsive: [
+            {
+                breakpoint: 576,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1
+                }
+            },
+            {
+                breakpoint: 1025,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2
+                }
+            }
+        ]
+    });
+    // suggest_products carousel - end
     // --------------------------------------------------
 
     // top category carousel - end

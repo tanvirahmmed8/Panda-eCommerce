@@ -42,7 +42,7 @@
     <!-- custom - css include -->
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/css/style.css">
     <style media="screen">
-        .rating {
+        .rating_get {
         display: flex;
         flex-direction: row-reverse;
         justify-content: left;
@@ -50,9 +50,9 @@
         }
 
 
-        .rating > input{ display:none;}
+        .rating_get > input{ display:none;}
 
-        .rating > label {
+        .rating_get > label {
         position: relative;
         width: 1.1em;
         font-size: 50px;
@@ -60,22 +60,22 @@
         cursor: pointer;
         }
 
-        .rating > label::before{
+        .rating_get > label::before{
         content: "\2605";
         position: absolute;
         opacity: 0;
         }
 
-        .rating > label:hover:before,
-        .rating > label:hover ~ label:before {
+        .rating_get > label:hover:before,
+        .rating_get > label:hover ~ label:before {
         opacity: 1 !important;
         }
 
-        .rating > input:checked ~ label:before{
+        .rating_get > input:checked ~ label:before{
         opacity:1;
         }
 
-        .rating:hover > input:checked ~ label:before{ opacity: 0.4; }
+        .rating_get:hover > input:checked ~ label:before{ opacity: 0.4; }
 
 
 
