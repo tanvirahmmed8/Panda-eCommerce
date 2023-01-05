@@ -161,10 +161,10 @@
                                             </ul>
                                             <div class="item_price">
                                                 @if ($latest_product->discounted_price)
-                                                <span>${{ $latest_product->discounted_price }}</span>
-                                                <del>${{ $latest_product->regular_price }}</del>
+                                                <span>{{ currency() }}{{ $latest_product->discounted_price }}</span>
+                                                <del>{{ currency() }}{{ $latest_product->regular_price }}</del>
                                                 @else
-                                                <span>${{ $latest_product->regular_price }}</span>
+                                                <span>{{ currency() }}{{ $latest_product->regular_price }}</span>
                                                 @endif
                                             </div>
                                         </div>
@@ -283,14 +283,14 @@
                                         <ins>
                                             <span class="woocommerce-Price-amount amount">
                                                 <bdi>
-                                                    <span class="woocommerce-Price-currencySymbol">$</span>{{ $product->discounted_price }}
+                                                    <span class="woocommerce-Price-currencySymbol">{{ currency() }}</span>{{ $product->discounted_price }}
                                                 </bdi>
                                             </span>
                                         </ins>
                                         <del aria-hidden="true">
                                             <span class="woocommerce-Price-amount amount">
                                                 <bdi>
-                                                    <span class="woocommerce-Price-currencySymbol">$</span>{{ $product->regular_price }}
+                                                    <span class="woocommerce-Price-currencySymbol">{{ currency() }}</span>{{ $product->regular_price }}
                                                 </bdi>
                                             </span>
                                         </del>
@@ -298,7 +298,7 @@
                                         <ins>
                                             <span class="woocommerce-Price-amount amount">
                                                 <bdi>
-                                                    <span class="woocommerce-Price-currencySymbol">$</span>{{ $product->regular_price }}
+                                                    <span class="woocommerce-Price-currencySymbol">{{ currency() }}</span>{{ $product->regular_price }}
                                                 </bdi>
                                             </span>
                                         </ins>

@@ -106,6 +106,7 @@ Route::middleware(['vendor'])->group(function () {
     Route::resource('/coupon', CouponController::class);
     Route::get('product/inventory/{product}', [ProductController::class, 'inventory'])->name('inventory');
     Route::post('product/inventory/add/{product}', [ProductController::class, 'addinventory'])->name('addinventory');
+    // Route::post('product/inventory/edit/{product}', [ProductController::class, 'edit'])->name('edit');
     Route::resource('/variation', VariationController::class);
 });
 // Only vendor can see this route end

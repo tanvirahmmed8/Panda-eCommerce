@@ -181,7 +181,7 @@
                                         </a>
                                     </li> --}}
                                     <li>
-                                        <a href="{{ route('cart') }}">
+                                        <a href="#">
                                             <span class="cart_icon">
                                                 <i class="icon icon-ShoppingCart"></i>
                                                 <small class="cart_counter">{{ cartcount() }}</small>
@@ -247,7 +247,11 @@
                                     </li>
                                     <li class="nav-item dropdown">
                                         <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <svg role="img" xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 24 24" stroke="#051d43" stroke-width="1" stroke-linecap="square" stroke-linejoin="miter" fill="none" color="#2329D6"> <title id="personIconTitle">Person</title> <path d="M4,20 C4,17 8,17 10,15 C11,14 8,14 8,9 C8,5.667 9.333,4 12,4 C14.667,4 16,5.667 16,9 C16,14 13,14 14,15 C16,17 20,17 20,20"/> </svg>
+                                            @if (auth()->user()->profile_photo)
+                                            <img src="{{ asset('dashboard/uplaods/profile_photos') }}/{{ auth()->user()->profile_photo }}" width="30px"  class="img-fluid rounded-circle" alt="">
+                                            @else
+                                            <img src="{{ Avatar::create(Str::upper(auth()->user()->name))->toBase64() }}" width="30px" class="img-fluid rounded-circle" alt="">
+                                            @endif
                                         </a>
                                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                           <li><a class="dropdown-item" href="{{ route('home') }}">My Account</a></li>
@@ -281,62 +285,56 @@
 		================================================== -->
 		<div class="sidebar-menu-wrapper">
             <div class="cart_sidebar">
+                @php
+                $subtotalg = 0;
+
+                @endphp
                 <button type="button" class="close_btn"><i class="fal fa-times"></i></button>
-                <ul class="cart_items_list ul_li_block mb_30 clearfix">
-                    <li>
-                        <div class="item_image">
-                            <img src="{{ asset('frontend') }}/images/cart/cart_img_1.jpg" alt="image_not_found">
-                        </div>
-                        <div class="item_content">
-                            <h4 class="item_title">Yellow Blouse</h4>
-                            <span class="item_price">$30.00</span>
-                        </div>
-                        <button type="button" class="remove_btn"><i class="fal fa-trash-alt"></i></button>
-                    </li>
-                    <li>
-                        <div class="item_image">
-                            <img src="{{ asset('frontend') }}/images/cart/cart_img_2.jpg" alt="image_not_found">
-                        </div>
-                        <div class="item_content">
-                            <h4 class="item_title">Yellow Blouse</h4>
-                            <span class="item_price">$30.00</span>
-                        </div>
-                        <button type="button" class="remove_btn"><i class="fal fa-trash-alt"></i></button>
-                    </li>
-                    <li>
-                        <div class="item_image">
-                            <img src="{{ asset('frontend') }}/images/cart/cart_img_3.jpg" alt="image_not_found">
-                        </div>
-                        <div class="item_content">
-                            <h4 class="item_title">Yellow Blouse</h4>
-                            <span class="item_price">$30.00</span>
-                        </div>
-                        <button type="button" class="remove_btn"><i class="fal fa-trash-alt"></i></button>
-                    </li>
-                </ul>
+               @if (cartg()->count() > 0)
+                 <ul class="cart_items_list ul_li_block mb_30 clearfix">
+                     @foreach (cartg() as $cartg)
+                         <li>
+                             <div class="item_image">
+                                 <img src="{{ asset('dashboard/uplaods/product_thumbnail') }}/{{ $cartg->productrel->thumbnail }}" alt="image_not_found">
+                             </div>
+                             <div class="item_content">
+                                 <h4 class="item_title">{{ $cartg->productrel->name }}</h4>
+                             </div>
+                             @php
+                                 $subtotalg += cart_total($cartg->product_id, $cartg->quantity);
+                             @endphp
+                              @if ($cartg->productrel->discounted_price)
+                              <span class="remove_btn">{{ currency() }}{{ $cartg->quantity * $cartg->productrel->discounted_price }}</span>
+                              @else
+                              <span class="remove_btn">{{ currency() }}{{ $cartg->quantity * $cartg->productrel->regular_price }}</span>
+                              @endif
+                             {{-- <button type="button" class="remove_btn"><i class="fal fa-trash-alt">{{ $cartg->quantity }} </i></button> --}}
+                         </li>
+                     @endforeach
 
-                <ul class="total_price ul_li_block mb_30 clearfix">
-                    <li>
-                        <span>Subtotal:</span>
-                        <span>$90</span>
-                    </li>
-                    <li>
-                        <span>Vat 5%:</span>
-                        <span>$4.5</span>
-                    </li>
-                    <li>
-                        <span>Discount 20%:</span>
-                        <span>- $18.9</span>
-                    </li>
-                    <li>
-                        <span>Total:</span>
-                        <span>$75.6</span>
-                    </li>
-                </ul>
+                 </ul>
 
-                <ul class="btns_group ul_li_block clearfix">
-                    <li><a class="btn btn_primary" href="{{ route('cart') }}">View Cart</a></li>
-                    <li><a class="btn btn_secondary" href="checkout.html">Checkout</a></li>
+                 <ul class="total_price ul_li_block mb_30 clearfix">
+                     <li>
+                         <span>Subtotal:</span>
+                         <span>{{ currency() }}{{ ceil($subtotalg) }}</span>
+                     </li>
+                 </ul>
+
+               @else
+                <ul class="btns_group ul_li_block mb-5 clearfix">
+                    <div class="empty_cart_content text-center">
+                        <span class="cart_icon">
+                            <i class="icon icon-ShoppingCart"></i>
+                        </span>
+                        <h3>There are no more items in your cart</h3>
+                        <a class="btn btn_secondary" href="{{ route('shop') }}"><i class="far fa-chevron-left"></i> Continue shopping </a>
+                    </div>
+                </ul>
+               @endif
+               <ul class="btns_group ul_li_block clearfix">
+                <li><a class="btn btn_primary" href="{{ route('cart') }}">View Cart</a></li>
+                {{-- <li><a class="btn btn_secondary" href="checkout.html">Checkout</a></li> --}}
                 </ul>
             </div>
 

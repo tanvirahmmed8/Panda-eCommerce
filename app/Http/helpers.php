@@ -5,6 +5,7 @@ use App\Models\Rating;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Inventory;
+use App\Models\Invoice;
 
 function cartcount()
 {
@@ -65,6 +66,17 @@ function ordertotal($discount, $subtotal, $delivery_charge){
     }
 }
 
+function cartg(){
+    $cartgs = Cart::where('user_id', auth()->id())->get();
+    return $cartgs;
+}
+function currency(){
+    return "৳";
+}
+
+function order(){
+    return Invoice::where('vendor_id', auth()->id())->where('order_status', 'processing')->count();
+}
 
 
 

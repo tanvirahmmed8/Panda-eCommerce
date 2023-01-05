@@ -79,7 +79,7 @@
                                 <div class="card widget-flat">
                                     <div class="card-body">
                                         <h5 class="text-muted fw-normal mt-0" title="Number of Customers">Total Order Value</h5>
-                                        <h3 class="mt-3 mb-3">{{ $invoices->sum('total_price') }}</h3>
+                                        <h3 class="mt-3 mb-3">{{ currency() }}{{ $invoices->sum('total_price') }}</h3>
                                     </div> <!-- end card-body-->
                                 </div> <!-- end card-->
                             </div> <!-- end col-->
@@ -88,7 +88,7 @@
                                 <div class="card widget-flat">
                                     <div class="card-body">
                                         <h5 class="text-muted fw-normal mt-0" title="Number of Customers">Total Paid</h5>
-                                        <h3 class="mt-3 mb-3">{{ $invoices->where('payment_status', 'paid')->sum('total_price') }}</h3>
+                                        <h3 class="mt-3 mb-3">{{ currency() }}{{ $invoices->where('payment_status', 'paid')->sum('total_price') }}</h3>
                                     </div> <!-- end card-body-->
                                 </div> <!-- end card-->
                             </div> <!-- end col-->
@@ -97,7 +97,7 @@
                                 <div class="card widget-flat">
                                     <div class="card-body">
                                         <h5 class="text-muted fw-normal mt-0" title="Number of Customers">Total Unpaid</h5>
-                                        <h3 class="mt-3 mb-3">{{ $invoices->where('payment_status', 'unpaid')->sum('total_price') }}</h3>
+                                        <h3 class="mt-3 mb-3">{{ currency() }}{{ $invoices->where('payment_status', 'unpaid')->sum('total_price') }}</h3>
                                     </div> <!-- end card-body-->
                                 </div> <!-- end card-->
                             </div> <!-- end col-->

@@ -16,7 +16,7 @@ class Show extends Component
     public $discount;
     public $delivery_charge = 0;
     public $delivery_forbutton = 0;
-    public $test;
+    // public $test;
     public function render()
     {
         $shippings = Shipping::where('status', true)->get();

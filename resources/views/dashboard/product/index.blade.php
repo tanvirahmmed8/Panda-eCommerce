@@ -9,7 +9,7 @@
 <div class="page-titles">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('home') }}">Dashboard</a></li>
-        <li class="breadcrumb-item active"><a href="javascript:void(0)">Product Create</a></li>
+        <li class="breadcrumb-item active"><a href="javascript:void(0)">Product List</a></li>
     </ol>
 </div>
 
@@ -48,6 +48,12 @@
                                         <td>{{ $product->regular_price }}</td>
                                         <td>
                                             <a href="{{ route('inventory', $product->id) }}" class="btn btn-sm btn-secondary">Add Inventory</a>
+                                            <a href="{{ route('product.edit', $product->id) }}" class="btn btn-sm btn-success">Edit</a>
+                                            <form action="{{ route('product.destroy',  $product->id) }}" method="post" style="display: inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></button>
+                                            </form>
                                         </td>
                                     </tr>
 

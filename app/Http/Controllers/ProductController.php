@@ -93,7 +93,8 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        $categories = Category::get(['id','category_name']);
+        return view('dashboard.product.edit', compact('categories','product'));
     }
 
     /**
@@ -116,7 +117,8 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+        return back();
     }
 
     public function inventory(Product $product)

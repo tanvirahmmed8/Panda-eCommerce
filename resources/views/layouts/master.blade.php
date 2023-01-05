@@ -847,7 +847,7 @@
                     <li>
                         <a href="{{ route('vendor.order', auth()->id()) }}" class="ai-icon" aria-expanded="false">
                             <i class="flaticon-381-settings-2"></i>
-                            <span class="nav-text">Order</span><span class="badge badge-danger ml-3">8</span>
+                            <span class="nav-text">Order</span><span class="badge badge-danger ml-3">{{ order() }}</span>
                         </a>
                     </li>
                     <li>

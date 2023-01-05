@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use DB;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Library\SslCommerz\SslCommerzNotification;
 
 class SslCommerzPaymentController extends Controller
@@ -202,6 +202,7 @@ class SslCommerzPaymentController extends Controller
                     'payment_status' => 'paid'
                 ]);
             }
+            return redirect('shop');
         } else if ($order_detials->status == 'Processing' || $order_detials->status == 'Complete') {
             /*
              That means through IPN Order status already updated. Now you can just show the customer that transaction is completed. No need to udate database.
@@ -210,6 +211,7 @@ class SslCommerzPaymentController extends Controller
             DB::table('invoices')->where('id',  $invoice_id)->update([
                 'payment_status' => 'paid'
             ]);
+            return redirect('shop');
         } else {
             #That means something wrong happened. You can redirect customer to your product page.
             echo "Invalid Transaction";
@@ -288,9 +290,9 @@ class SslCommerzPaymentController extends Controller
                         ->update(['status' => 'Processing']);
 
                     echo "Transaction is successfully Completed";
-                    DB::table('invoices')->where('id',  $invoice_id)->update([
-                        'payment_status' => 'paid'
-                    ]);
+                    // DB::table('invoices')->where('id',  $invoice_id)->update([
+                    //     'payment_status' => 'paid'
+                    // ]);
                 }
             } else if ($order_details->status == 'Processing' || $order_details->status == 'Complete') {
 

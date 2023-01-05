@@ -27,14 +27,14 @@
                 <ins>
                     <span class="woocommerce-Price-amount amount">
                         <bdi>
-                            <span class="woocommerce-Price-currencySymbol">$</span>{{ $product->discounted_price }}
+                            <span class="woocommerce-Price-currencySymbol">{{ currency() }}</span>{{ $product->discounted_price }}
                         </bdi>
                     </span>
                 </ins>
                 <del aria-hidden="true">
                     <span class="woocommerce-Price-amount amount">
                         <bdi>
-                            <span class="woocommerce-Price-currencySymbol">$</span>{{ $product->regular_price }}
+                            <span class="woocommerce-Price-currencySymbol">{{ currency() }}</span>{{ $product->regular_price }}
                         </bdi>
                     </span>
                 </del>
@@ -42,7 +42,7 @@
                 <ins>
                     <span class="woocommerce-Price-amount amount">
                         <bdi>
-                            <span class="woocommerce-Price-currencySymbol">$</span>{{ $product->regular_price }}
+                            <span class="woocommerce-Price-currencySymbol">{{ currency() }}</span>{{ $product->regular_price }}
                         </bdi>
                     </span>
                 </ins>

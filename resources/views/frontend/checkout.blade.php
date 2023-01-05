@@ -81,7 +81,7 @@
                         <table class="shop_table woocommerce-checkout-review-order-table">
                             <tr class="cart-subtotal">
                                 <th>Subtotal</th>
-                                <td><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>{{ session('subtotal') }}</span>
+                                <td><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">{{ currency() }}</span>{{ session('subtotal') }}</span>
                                 </td>
                             </tr>
                             <tr class="cart-subtotal">
@@ -92,13 +92,13 @@
                             <tr class="shipping">
                                 <th>Delivery Charge</th>
                                 <td data-title="Shipping">
-                                    <span class="woocommerce-Price-currencySymbol">$</span>{{ session('delivery_charge') }}</span>
+                                    <span class="woocommerce-Price-currencySymbol">{{ currency() }}</span>{{ session('delivery_charge') }}</span>
                                     <input type="hidden" data-index="0" id="shipping_method_0" class="shipping_method" />
                                 </td>
                             </tr>
                             <tr class="order-total">
                                 <th>Total</th>
-                                <td><strong><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&pound;</span>{{ session('total_price') }}</span></strong> </td>
+                                <td><strong><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">{{ currency() }}</span>{{ session('total_price') }}</span></strong> </td>
                             </tr>
                         </table>
                         <div id="payment" class="woocommerce-checkout-payment py-3 mt-5">
