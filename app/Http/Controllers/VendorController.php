@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Invoice;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -44,6 +45,12 @@ class VendorController extends Controller
 
     public function vendor_login(){
         return view('frontend.vendor.login');
+    }
+    public function trash(){
+        $trash_products = Product::onlyTrashed()
+        ->where('vendor_id', auth()->id())
+        ->get();
+        return view('dashboard.vendor.trash', compact('trash_products'));
     }
     public function vendor_order($id){
         $invoices = Invoice::with(['invoice_detail_rel' => function($q){

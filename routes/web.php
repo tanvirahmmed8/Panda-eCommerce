@@ -103,11 +103,13 @@ Route::middleware(['vendor'])->group(function () {
     Route::get('vendor/order/{id}', [VendorController::class, 'vendor_order'])->name('vendor.order');
     Route::post('order/status/change/{id}', [VendorController::class, 'order_status'])->name('order.status');
     Route::resource('/product', ProductController::class);
+    Route::get('product/restore/{product}', [ProductController::class, 'restore'])->name('restore');
     Route::resource('/coupon', CouponController::class);
     Route::get('product/inventory/{product}', [ProductController::class, 'inventory'])->name('inventory');
     Route::post('product/inventory/add/{product}', [ProductController::class, 'addinventory'])->name('addinventory');
     // Route::post('product/inventory/edit/{product}', [ProductController::class, 'edit'])->name('edit');
     Route::resource('/variation', VariationController::class);
+    Route::get('vendor/trash/index', [VendorController::class, 'trash'])->name('vendor.trash.index');
 });
 // Only vendor can see this route end
 

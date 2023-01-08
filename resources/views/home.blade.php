@@ -11,8 +11,11 @@
                             <i class="flaticon-381-calendar-1"></i>
                         </span>
                         <div class="media-body text-white text-right">
+                            @php
+                                $total_sell = $invoices->sum('total_price')-$invoices->sum('delivery_charge');
+                            @endphp
                             <p class="mb-1">Total Sell</p>
-                            <h3 class="text-white">${{ $invoices->sum('total_price')-$invoices->sum('delivery_charge') }}</h3>
+                            <h3 class="text-white">{{ currency() }}{{ $total_sell }}</h3>
                         </div>
                     </div>
                 </div>
@@ -27,7 +30,7 @@
                         </span>
                         <div class="media-body text-white text-right">
                             <p class="mb-1">Earning</p>
-                            <h3 class="text-white">a</h3>
+                            <h3 class="text-white">{{ currency() }}{{ round($total_sell - $total_earn) }}</h3>
                         </div>
                     </div>
                 </div>

@@ -7,6 +7,7 @@ use App\Models\Team;
 use App\Models\User;
 use App\Models\Invoice;
 use App\Mail\NewAdminMail;
+use App\Models\Invoice_detail;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -38,8 +39,16 @@ class HomeController extends Controller
             return view('frontend.customer.dashboard', compact('invoices','profile','invoices_list'));
         }else{
             $teams = Team::all();
-            $invoices = Invoice::where('vendor_id', auth()->id())->get();
-            return view('home', compact('teams','invoices'));
+            $date = Carbon::today()->subDays(30);
+            $invoices = Invoice::where('vendor_id', auth()->id())->where('created_at','>=',$date)->get();
+            $total_earn = 0;
+            foreach($invoices as $invoice){
+                foreach($invoice->invoice_detail_rel as $d){
+                $total_earn += $d->product->purchase_price;
+                }
+            }
+            //return $total_earn;
+            return view('home', compact('teams','invoices','total_earn'));
         }
 
         // echo auth()->user()->role;

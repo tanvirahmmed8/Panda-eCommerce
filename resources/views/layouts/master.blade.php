@@ -856,6 +856,12 @@
                             <span class="nav-text">Coupon</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="{{ route('vendor.trash.index') }}" class="ai-icon" aria-expanded="false">
+                            <i class="flaticon-381-trash"></i>
+                            <span class="nav-text">Trash</span>
+                        </a>
+                    </li>
                     @endif
                 </ul>
 

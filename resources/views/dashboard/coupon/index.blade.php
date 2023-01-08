@@ -75,20 +75,26 @@
                             <thead>
                                 <tr>
                                     <th>Coupon Code</th>
-                                    {{-- <th>Type</th> --}}
                                     <th>Discount</th>
                                     <th>Min Purchase</th>
                                     <th>Max Discount</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse ($coupons as $coupon)
                                     <tr>
                                         <td>{{ $coupon->coupon_code }}</td>
-                                        {{-- <td>{{ $coupon->type }}</td> --}}
                                         <td>{{ $coupon->discount_value }} {{ ($coupon->type == 'percentage') ? '%':'৳' }}</td>
                                         <td>{{ $coupon->minimum_purchase_amount.'৳' }}</td>
                                         <td>{{ $coupon->maximum_discount_value.'৳' }}</td>
+                                        <td>
+                                            <form action="{{ route('coupon.destroy', $coupon->id) }}" method="post">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="btn btn-danger"> Delete</button>
+                                            </form>
+                                        </td>
                                     </tr>
                                 @empty
 
