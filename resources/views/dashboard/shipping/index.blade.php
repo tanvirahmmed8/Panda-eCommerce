@@ -1,5 +1,5 @@
 @extends('layouts.master')
-
+@section('title') Shipping @endsection
 @push('stylesheet')
 <style>
     .switch {

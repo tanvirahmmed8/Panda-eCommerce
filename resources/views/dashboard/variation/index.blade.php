@@ -1,5 +1,5 @@
 @extends('layouts.master')
-
+@section('title') Variation @endsection
 @section('content')
     <div class="page-titles">
         <ol class="breadcrumb">

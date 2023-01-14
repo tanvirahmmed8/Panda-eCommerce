@@ -1,6 +1,5 @@
-
-
 @extends('layouts.frontendmaster')
+@section('title') Product Details @endsection
 @section('content')
 <!-- breadcrumb_section - start
             ================================================== -->
@@ -26,54 +25,23 @@
                                     <div class="slider_item">
                                         <img src="{{ asset('dashboard/uplaods/product_thumbnail') }}/{{ $product->thumbnail }}" alt="image_not_found">
                                     </div>
-                                    <div class="slider_item">
-                                        <img src="{{ asset('frontend') }}/images/details/product_details_img_2.png" alt="image_not_found">
-                                    </div>
-                                    <div class="slider_item">
-                                        <img src="{{ asset('frontend') }}/images/details/product_details_img_3.png" alt="image_not_found">
-                                    </div>
-                                    <div class="slider_item">
-                                        <img src="{{ asset('frontend') }}/images/details/product_details_img_4.png" alt="image_not_found">
-                                    </div>
-                                    <div class="slider_item">
-                                        <img src="{{ asset('frontend') }}/images/details/product_details_img_1.png" alt="image_not_found">
-                                    </div>
-                                    <div class="slider_item">
-                                        <img src="{{ asset('frontend') }}/images/details/product_details_img_2.png" alt="image_not_found">
-                                    </div>
-                                    <div class="slider_item">
-                                        <img src="{{ asset('frontend') }}/images/details/product_details_img_3.png" alt="image_not_found">
-                                    </div>
-                                    <div class="slider_item">
-                                        <img src="{{ asset('frontend') }}/images/details/product_details_img_4.png" alt="image_not_found">
-                                    </div>
+                                    @foreach ($product->product_image as $product_image)
+                                        <div class="slider_item">
+                                            <img src="{{ asset('dashboard/uplaods/product_thumbnail') }}/{{ $product_image->image }}" alt="image_not_found">
+                                        </div>
+                                    @endforeach
                                 </div>
 
                                 <div class="details_image_carousel_nav">
                                     <div class="slider_item">
                                         <img src="{{ asset('dashboard/uplaods/product_thumbnail') }}/{{ $product->thumbnail }}" alt="image_not_found">
                                     </div>
-                                    <div class="slider_item">
-                                        <img src="{{ asset('frontend') }}/images/details/product_details_img_2.png" alt="image_not_found">
-                                    </div>
-                                    <div class="slider_item">
-                                        <img src="{{ asset('frontend') }}/images/details/product_details_img_3.png" alt="image_not_found">
-                                    </div>
-                                    <div class="slider_item">
-                                        <img src="{{ asset('frontend') }}/images/details/product_details_img_4.png" alt="image_not_found">
-                                    </div>
-                                    <div class="slider_item">
-                                        <img src="{{ asset('frontend') }}/images/details/product_details_img_1.png" alt="image_not_found">
-                                    </div>
-                                    <div class="slider_item">
-                                        <img src="{{ asset('frontend') }}/images/details/product_details_img_2.png" alt="image_not_found">
-                                    </div>
-                                    <div class="slider_item">
-                                        <img src="{{ asset('frontend') }}/images/details/product_details_img_3.png" alt="image_not_found">
-                                    </div>
-                                    <div class="slider_item">
-                                        <img src="{{ asset('frontend') }}/images/details/product_details_img_4.png" alt="image_not_found">
-                                    </div>
+                                    @foreach ($product->product_image as $product_image)
+                                        <div class="slider_item">
+                                            <img src="{{ asset('dashboard/uplaods/product_thumbnail') }}/{{ $product_image->image }}" alt="image_not_found">
+                                        </div>
+                                    @endforeach
+                                    
                                 </div>
                             </div>
                         </div>

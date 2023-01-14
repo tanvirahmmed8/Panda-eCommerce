@@ -1,5 +1,5 @@
 @extends('layouts.frontendmaster')
-
+@section('title') About Us @endsection
 @section('content')
 <!-- breadcrumb_section - start
 		================================================== -->

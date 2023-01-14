@@ -1,5 +1,5 @@
 @extends('layouts.frontendmaster')
-
+@section('title') Home @endsection
 @section('content')
 
 <!-- slider_section - start

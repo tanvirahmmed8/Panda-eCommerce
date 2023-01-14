@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Gymove - Fitness Bootstrap Admin Dashboard</title>
+    <title>Dashboard - @yield('title')</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('dashboard') }}/images/favicon.png">
 	<link rel="stylesheet" href="{{ asset('dashboard') }}/vendor/chartist/css/chartist.min.css">
@@ -780,6 +780,12 @@
                         <a href="{{ route('home') }}" class="ai-icon" aria-expanded="false">
                             <i class="flaticon-381-networking"></i>
                             <span class="nav-text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('index') }}" class="ai-icon" aria-expanded="false">
+                            <i class="flaticon-381-networking"></i>
+                            <span class="nav-text">Visit Website</span>
                         </a>
                     </li>
                     @if (auth()->user()->role == 'admin')

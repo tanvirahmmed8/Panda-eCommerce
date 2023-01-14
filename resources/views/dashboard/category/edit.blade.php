@@ -1,10 +1,10 @@
 @extends('layouts.master')
-
+@section('title') Category Edit @endsection
 @section('content')
 <div class="page-titles">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('home') }}">Dashboard</a></li>
-        <li class="breadcrumb-item active"><a href="javascript:void(0)">Edit</a></li>
+        <li class="breadcrumb-item active"><a href="javascript:void(0)">Category Edit</a></li>
     </ol>
 </div>
 

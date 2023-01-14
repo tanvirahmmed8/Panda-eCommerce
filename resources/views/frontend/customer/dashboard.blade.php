@@ -1,5 +1,5 @@
 @extends('layouts.frontendmaster')
-
+@section('title') My Account @endsection
 @section('content')
 <!-- breadcrumb_section - start
 ================================================== -->

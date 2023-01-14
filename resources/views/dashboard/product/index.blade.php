@@ -1,5 +1,5 @@
 @extends('layouts.master')
-
+@section('title') Product @endsection
 @push('stylesheet')
 <!-- Datatable -->
 <link href="{{ asset('dashboard') }}/vendor/datatables/css/jquery.dataTables.min.css" rel="stylesheet">
@@ -49,6 +49,7 @@
                                         <td>
                                             <a href="{{ route('inventory', $product->id) }}" class="btn btn-sm btn-secondary">Add Inventory</a>
                                             <a href="{{ route('product.edit', $product->id) }}" class="btn btn-sm btn-success">Edit</a>
+                                            <a href="{{ route('product.image.add', $product->id) }}" class="btn btn-sm btn-success">AddImage</a>
                                             <form action="{{ route('product.destroy',  $product->id) }}" method="post" style="display: inline;">
                                                 @csrf
                                                 @method('DELETE')

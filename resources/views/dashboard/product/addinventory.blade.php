@@ -1,5 +1,5 @@
 @extends('layouts.master')
-
+@section('title') Inventory @endsection
 @section('content')
     <div class="page-titles">
         <ol class="breadcrumb">

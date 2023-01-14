@@ -65,5 +65,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'admin' => \App\Http\Middleware\AdminRoleChecker::class,
         'vendor' => \App\Http\Middleware\VendorRoleChecker::class,
+        'admin_vendor' => \App\Http\Middleware\AdminVendorRoleChecker::class,
     ];
 }

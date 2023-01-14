@@ -1,5 +1,5 @@
 @extends('layouts.frontendmaster')
-
+@section('title') Cart @endsection
 @section('content')
  <!-- breadcrumb_section - start
 ================================================== -->

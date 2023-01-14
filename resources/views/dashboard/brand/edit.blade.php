@@ -1,5 +1,5 @@
 @extends('layouts.master')
-
+@section('title') Brand @endsection
 @section('content')
 <div class="page-titles">
     <ol class="breadcrumb">

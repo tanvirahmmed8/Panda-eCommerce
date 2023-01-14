@@ -1,4 +1,5 @@
 @extends('layouts.frontendmaster')
+@section('title') Checkout @endsection
 @push('stylesheet')
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/css/woocommerce-2.css">

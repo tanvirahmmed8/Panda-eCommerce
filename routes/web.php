@@ -64,13 +64,13 @@ Auth::routes(['register' => false]);
 Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware(['auth', 'verified']);
 Route::post('/profileupdate', [HomeController::class, 'profileupdate'])->name('profileupdate')->middleware(['auth', 'verified']);
 
-
+Route::middleware(['auth','admin_vendor'])->group(function () {
 // ProfileController Start
-Route::get('/profile', [ProfileController::class, 'profile'])->name('profile')->middleware(['password.confirm']);
+Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
 Route::post('/profile/photo/upload', [ProfileController::class, 'profilephotoupload'])->name('profile.photo.upload');
 Route::post('/cover/photo/upload', [ProfileController::class, 'coverphoto'])->name('cover.photo.upload');
 Route::post('/password/change', [ProfileController::class, 'password_change'])->name('password.change');
-
+});
 
 // CustomerController
 Route::post('/customer/login', [CustomerController::class, 'customer_login'])->name('customer.login');
@@ -99,11 +99,14 @@ Route::post('vendor/login', [VendorController::class, 'vendor_login_post'])->nam
 // VendorController end
 
 // Only vendor can see this route start
-Route::middleware(['vendor'])->group(function () {
+Route::middleware(['auth','vendor'])->group(function () {
     Route::get('vendor/order/{id}', [VendorController::class, 'vendor_order'])->name('vendor.order');
     Route::post('order/status/change/{id}', [VendorController::class, 'order_status'])->name('order.status');
     Route::resource('/product', ProductController::class);
     Route::get('product/restore/{product}', [ProductController::class, 'restore'])->name('restore');
+    Route::get('product/image/add/{product}', [ProductController::class, 'product_image_add'])->name('product.image.add');
+    Route::post('product/image/post/{product}', [ProductController::class, 'product_image_post'])->name('product.image.post');
+    Route::get('product/image/delete/{id}', [ProductController::class, 'product_image_delete'])->name('product.image.delete');
     Route::resource('/coupon', CouponController::class);
     Route::get('product/inventory/{product}', [ProductController::class, 'inventory'])->name('inventory');
     Route::post('product/inventory/add/{product}', [ProductController::class, 'addinventory'])->name('addinventory');
@@ -115,7 +118,7 @@ Route::middleware(['vendor'])->group(function () {
 
 
 // Only admin can see this route start
-Route::middleware(['admin'])->group(function () {
+Route::middleware(['auth','admin'])->group(function () {
     //HomeController start
     Route::get('/users', [HomeController::class, 'users'])->name('users');
     Route::post('addnew/admin', [HomeController::class, 'addnew_admin'])->name('addnew.admin');
@@ -141,8 +144,8 @@ Route::middleware(['admin'])->group(function () {
 
 
 // SSLCOMMERZ Start
-Route::get('/example1', [SslCommerzPaymentController::class, 'exampleEasyCheckout']);
-Route::get('/example2', [SslCommerzPaymentController::class, 'exampleHostedCheckout']);
+// Route::get('/example1', [SslCommerzPaymentController::class, 'exampleEasyCheckout']);
+// Route::get('/example2', [SslCommerzPaymentController::class, 'exampleHostedCheckout']);
 
 Route::get('/pay', [SslCommerzPaymentController::class, 'index']);
 Route::post('/pay-via-ajax', [SslCommerzPaymentController::class, 'payViaAjax']);

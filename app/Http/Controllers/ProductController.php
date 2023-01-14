@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+use App\Models\Size;
 use App\Models\Color;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Inventory;
-use App\Models\Size;
-use Carbon\Carbon;
+use App\Models\ProductImage;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 
@@ -86,7 +88,37 @@ class ProductController extends Controller
     {
         //
     }
+    public function product_image_add(Product $product)
+    {
+        return view('dashboard.product.add_product_image', compact('product'));
+    }
 
+    public function product_image_post(Request $request, Product $product)
+    {
+        // $product->id;
+        // return $request->hasFile('image');
+        if ($request->hasFile('image')) {
+            $new_name = $product->id.'_'.auth()->id().'_'.time().Str::random(12).'.'.$request->file('image')->getClientOriginalextension();
+            $img = Image::make($request->file('image'))->resize(800, 609);
+            $img->save(base_path('public/dashboard/uplaods/product_thumbnail/'.$new_name), 100);
+
+            ProductImage::insert([
+                'product_id' => $product->id,
+                'image' => $new_name,
+                'created_at'=> Carbon::now()
+            ]);
+        }
+
+        return back()->with('success', 'Image Added Successfully!');
+    }
+
+    public function product_image_delete($id)
+    {
+        $product_image = ProductImage::find($id);
+        $product_image->delete();
+
+        return back()->with('success', 'Image Delete Successfully!');
+    }
     /**
      * Show the form for editing the specified resource.
      *

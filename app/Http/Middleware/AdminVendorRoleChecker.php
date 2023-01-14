@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class VendorRoleChecker
+class AdminVendorRoleChecker
 {
     /**
      * Handle an incoming request.
@@ -16,10 +16,9 @@ class VendorRoleChecker
      */
     public function handle(Request $request, Closure $next)
     {
-        
-        if (auth()->user()->role != 'vendor') {
-            abort(404);
-         }
-        return $next($request);
+        if (auth()->user()->role == 'admin' || auth()->user()->role == 'vendor') {
+            return $next($request);
+        }
+        abort(404);
     }
 }

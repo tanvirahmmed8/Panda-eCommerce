@@ -6,7 +6,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Stowaa -  Ecommerce HTML Template</title>
+    <title>{{ env('APP_NAME') }} -  @yield('title')</title>
     <link rel="shortcut icon" href="{{ asset('frontend') }}/images/logo/favourite_icon_1.png">
 
     <!-- fraimwork - css include -->

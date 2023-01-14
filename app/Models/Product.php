@@ -15,4 +15,14 @@ class Product extends Model
     {
         return $this->hasOne(Category::class, 'id', 'category_id');
     }
+
+    /**
+     * Get all of the comments for the Product
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function product_image()
+    {
+        return $this->hasMany(ProductImage::class, 'product_id', 'id');
+    }
 }

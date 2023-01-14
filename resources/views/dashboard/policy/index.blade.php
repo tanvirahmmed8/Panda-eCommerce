@@ -1,5 +1,5 @@
 @extends('layouts.master')
-
+@section('title') Policy @endsection
 @section('content')
 <div class="page-titles">
     <ol class="breadcrumb">

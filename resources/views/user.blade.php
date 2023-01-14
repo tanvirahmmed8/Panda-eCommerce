@@ -1,5 +1,5 @@
 @extends('layouts.master')
-
+@section('title') User @endsection
 @push('stylesheet')
 <!-- Datatable -->
 <link href="{{ asset('dashboard') }}/vendor/datatables/css/jquery.dataTables.min.css" rel="stylesheet">
