@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Invoice extends Model
 {
     use HasFactory;
-    protected $fillable = ['payment_status','order_status'];
+    protected $fillable = ['payment_status','order_status','withdrawal_status'];
 
     /**
      * Get all of the comments for the Invoice

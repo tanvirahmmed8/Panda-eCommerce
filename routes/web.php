@@ -113,6 +113,9 @@ Route::middleware(['auth','vendor'])->group(function () {
     // Route::post('product/inventory/edit/{product}', [ProductController::class, 'edit'])->name('edit');
     Route::resource('/variation', VariationController::class);
     Route::get('vendor/trash/index', [VendorController::class, 'trash'])->name('vendor.trash.index');
+    Route::get('vendor/wallet', [VendorController::class, 'vendor_wallet'])->name('vendor.wallet');
+    Route::post('vendor/withdraw', [VendorController::class, 'vendor_withdraw'])->name('vendor.withdraw');
+    Route::post('vendor/withdraw/request', [VendorController::class, 'withdraw_request'])->name('withdraw.request');
 });
 // Only vendor can see this route end
 

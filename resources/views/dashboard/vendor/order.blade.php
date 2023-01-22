@@ -30,6 +30,7 @@
                                     <th>Method</th>
                                     <th>P_Status</th>
                                     <th>order_status</th>
+                                    <th>Total</th>
                                     <th>Created</th>
                                     <th>Action</th>
                                 </tr>
@@ -49,6 +50,7 @@
                                         <td>{{ $invoice->payment_method }}</td>
                                         <td>{{ $invoice->payment_status }}</td>
                                         <td>{{ $invoice->order_status }}</td>
+                                        <td>{{ currency() }}{{ $invoice->total_price }}</td>
                                         <td>{{ $invoice->created_at->diffForHumans() }}</td>
                                         <td>
                                             <form action="{{ route('order.status', $invoice->id) }}" method="post">

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Invoice;
 use App\Models\Product;
+use App\Models\Withdraw;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -55,7 +56,7 @@ class VendorController extends Controller
     public function vendor_order($id){
         $invoices = Invoice::with(['invoice_detail_rel' => function($q){
             $q->with('product');
-        }])->where('vendor_id', auth()->id())->get();
+        }])->where('vendor_id', auth()->id())->where('order_status', '!=', 'deleverd')->get();
         return view('dashboard.vendor.order', compact('invoices'));
     }
 
@@ -97,5 +98,42 @@ class VendorController extends Controller
         }else{
             return back()->withErrors('You are not registered');
         }
+    }
+
+    public function vendor_wallet()
+    {
+        $invoices = Invoice::where([
+            'vendor_id'=> auth()->id(),
+            'payment_status' => 'paid',
+            'order_status' => 'deleverd'
+        ])->where('withdrawal_status', '!=', 'Withdrawal Done')->get();
+        $invoice_dones = Invoice::where([
+            'vendor_id'=> auth()->id(),
+            'payment_status' => 'paid',
+            'order_status' => 'deleverd',
+            'withdrawal_status' => 'Withdrawal Done'
+        ])->get();
+        return view('dashboard.vendor.wallet', compact('invoices','invoice_dones'));
+    }
+
+    public function vendor_withdraw(Request $request)
+    {
+        $invoices = Invoice::whereIn('id', $request->invoices)->get();
+        return view('dashboard.vendor.wallet_withdraw', compact('invoices'));
+    }
+    public function withdraw_request(Request $request)
+    {
+       $invoice_ids =explode(',', rtrim(ltrim($request->invoices, '['), ']'));
+       foreach($invoice_ids as $invoice_id){
+        Withdraw::insert([
+            'invoice_id' => $invoice_id,
+            'vendor_id' => auth()->id(),
+            'created_at' => Carbon::now()
+        ]);
+        Invoice::find($invoice_id)->update([
+            'withdrawal_status' => 'Withdrawal request send'
+        ]);
+       }
+        return redirect('/vendor/wallet');
     }
 }

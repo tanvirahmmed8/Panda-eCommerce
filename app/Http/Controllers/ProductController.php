@@ -99,7 +99,7 @@ class ProductController extends Controller
         // return $request->hasFile('image');
         if ($request->hasFile('image')) {
             $new_name = $product->id.'_'.auth()->id().'_'.time().Str::random(12).'.'.$request->file('image')->getClientOriginalextension();
-            $img = Image::make($request->file('image'))->resize(800, 609);
+            $img = Image::make($request->file('image'))->resize(680, 680);
             $img->save(base_path('public/dashboard/uplaods/product_thumbnail/'.$new_name), 100);
 
             ProductImage::insert([

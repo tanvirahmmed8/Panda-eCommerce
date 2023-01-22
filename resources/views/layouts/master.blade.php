@@ -783,7 +783,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('index') }}" class="ai-icon" aria-expanded="false">
+                        <a target="_blank" href="{{ route('index') }}" class="ai-icon" aria-expanded="false">
                             <i class="flaticon-381-networking"></i>
                             <span class="nav-text">Visit Website</span>
                         </a>
@@ -860,6 +860,12 @@
                         <a href="{{ route('coupon.index') }}" class="ai-icon" aria-expanded="false">
                             <i class="flaticon-381-settings-2"></i>
                             <span class="nav-text">Coupon</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('vendor.wallet') }}" class="ai-icon" aria-expanded="false">
+                            <i class="flaticon-381-settings-2"></i>
+                            <span class="nav-text">Wallet</span>
                         </a>
                     </li>
                     <li>
