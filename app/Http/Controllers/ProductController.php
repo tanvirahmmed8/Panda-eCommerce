@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\Inventory;
 use App\Models\ProductImage;
+use App\Models\ProductViewCount;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
@@ -86,7 +87,11 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        ProductViewCount::where('created_at', '<', Carbon::now()->subDays(31))->delete();
+        $last_30_days = ProductViewCount::where('product_id', $product->id)->where('created_at', '>', Carbon::now()->subDays(30))->get();
+        $last_7_days = ProductViewCount::where('product_id', $product->id)->where('created_at', '>', Carbon::now()->subDays(7))->get();
+        $today = ProductViewCount::where('product_id', $product->id)->where('created_at', '>', Carbon::now()->isToday())->get();
+        return view('dashboard.product.show', compact('product','last_30_days','last_7_days','today'));
     }
     public function product_image_add(Product $product)
     {

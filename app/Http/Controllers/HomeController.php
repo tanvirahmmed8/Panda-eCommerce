@@ -6,10 +6,12 @@ use Carbon\Carbon;
 use App\Models\Team;
 use App\Models\User;
 use App\Models\Invoice;
+use App\Models\Withdraw;
 use App\Mail\NewAdminMail;
-use App\Models\Invoice_detail;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\Invoice_detail;
+use App\Models\ProductPromotion;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
@@ -37,8 +39,24 @@ class HomeController extends Controller
             $invoices = Invoice::where('user_id', auth()->id())->get();
             $invoices_list = Invoice::where('user_id', auth()->id())->paginate(10);
             return view('frontend.customer.dashboard', compact('invoices','profile','invoices_list'));
-        }else{
+        }elseif (auth()->user()->role == 'admin'){
             $teams = Team::all();
+            // $date = Carbon::today()->subDays(30);
+            $invoices = Invoice::where([
+                'payment_status' => 'paid',
+                'order_status' => 'deleverd'
+            ])->get();
+            // $total_earn = 0;
+            // foreach($invoices as $invoice){
+            //     foreach($invoice->invoice_detail_rel as $d){
+            //     $total_earn += $d->product->purchase_price;
+            //     }
+            // }
+            //return $total_earn;
+            return view('dashboard.admin.home', compact('teams','invoices'));
+        }
+        else{
+            // $teams = Team::all();
             $date = Carbon::today()->subDays(30);
             $invoices = Invoice::where('vendor_id', auth()->id())->where('created_at','>=',$date)->get();
             $total_earn = 0;
@@ -48,7 +66,7 @@ class HomeController extends Controller
                 }
             }
             //return $total_earn;
-            return view('home', compact('teams','invoices','total_earn'));
+            return view('home', compact('invoices','total_earn'));
         }
 
         // echo auth()->user()->role;
@@ -118,6 +136,57 @@ class HomeController extends Controller
        }
        $user->save();
        return back();
+    }
+
+    public function withdrawal_admin()
+    {
+        $withdrawal_requests = Withdraw::with(['user_info','invoice_info'])->where('status','unpaid')->get();
+        $withdrawal_paids = Withdraw::with(['user_info','invoice_info'])->where('status','paid')->get();
+        return view('dashboard.admin.withdrawal', compact('withdrawal_requests','withdrawal_paids'));
+    }
+
+    public function withdrawal_status_change(Request $request)
+    {
+       foreach($request->withdrawal as $id){
+            Withdraw::find($id)->update([
+                'status' => 'paid'
+            ]);
+
+            $invoice = Withdraw::find($id);
+
+            Invoice::find($invoice->invoice_id)->update([
+                'withdrawal_status' => 'Withdrawal Done'
+            ]);
+       }
+       return back();
+    }
+
+    public function promotion_request()
+    {
+        $promotions = ProductPromotion::all();
+        return view('dashboard.admin.promotion',compact('promotions'));
+    }
+    public function promotion_status_change($id)
+    {
+        $promotions = ProductPromotion::find($id);
+        if($promotions->status){
+            $promotions->update([
+                    'status' => false
+                ]);
+        }else{
+            $promotions->update([
+                'status' => true
+            ]);
+        }
+
+         return back();
+    }
+
+    public function promotion_delete($id)
+    {
+        $promotions = ProductPromotion::find($id);
+        $promotions->delete();
+        return back();
     }
 
 }

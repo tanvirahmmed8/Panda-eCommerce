@@ -6,9 +6,12 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Invoice;
 use App\Models\Product;
+use App\Models\ProductPromotion;
 use App\Models\Withdraw;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Intervention\Image\Facades\Image;
 
 class VendorController extends Controller
 {
@@ -135,5 +138,59 @@ class VendorController extends Controller
         ]);
        }
         return redirect('/vendor/wallet');
+    }
+
+    public function applyforpromotion(Product $product)
+    {
+        $promotions = ProductPromotion::where('vendor_id', auth()->id())->get();
+        return view('dashboard.vendor.applyforpromotion',compact('product','promotions'));
+    }
+    public function apply_banner(Request $request)
+    {
+        $request->validate([
+            '*' => 'required',
+            'image' => 'image|mimes:jpg,png,jpeg,gif,svg'
+
+        ]);
+        $new_name = Str::random(5, 9).'_'.auth()->id().'_'.time().'.'.$request->file('image')->getClientOriginalextension();
+        $img = Image::make($request->file('image'))->resize(844, 517);
+        $img->save(base_path('public/dashboard/uplaods/banner/'.$new_name), 100);
+
+        ProductPromotion::insert([
+            'product_id' => $request->product_id,
+            'vendor_id' => auth()->id(),
+            'short_title' => $request->short_title,
+            'short_description' => $request->short_description,
+            'image' => $new_name,
+            'type' => 'banner',
+            'created_at' => Carbon::now()
+        ]);
+
+        return back();
+
+    }
+
+    public function apply_promotion(Request $request)
+    {
+        $request->validate([
+            '*' => 'required',
+            'p_image' => 'image|mimes:jpg,png,jpeg,gif,svg'
+
+        ]);
+        $new_name = Str::random(5, 9).'_'.auth()->id().'_'.time().'.'.$request->file('p_image')->getClientOriginalextension();
+        $img = Image::make($request->file('p_image'))->resize(377, 348);
+        $img->save(base_path('public/dashboard/uplaods/banner/'.$new_name), 100);
+
+        ProductPromotion::insert([
+            'product_id' => $request->product_id,
+            'vendor_id' => auth()->id(),
+            'short_description' => $request->p_short_description,
+            'image' => $new_name,
+            'type' => 'promotion',
+            'created_at' => Carbon::now()
+        ]);
+
+        return back();
+
     }
 }

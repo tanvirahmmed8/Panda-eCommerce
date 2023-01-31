@@ -9,19 +9,28 @@
         <div class="row">
             <div class="col-lg-9 offset-lg-3">
                 <div class="main_slider" data-slick='{"arrows": false}'>
-                    <div class="slider_item set-bg-image" data-background="{{ asset('frontend') }}/images/slider/slide-2.jpg">
-                        <div class="slider_content">
-                            <h3 class="small_title" data-animation="fadeInUp2" data-delay=".2s">Clothing</h3>
-                            <h4 class="big_title" data-animation="fadeInUp2" data-delay=".4s">Smart blood  <span>Pressure monitor</span></h4>
-                            <p data-animation="fadeInUp2" data-delay=".6s">The best gadgets collection 2021</p>
-                            <div class="item_price" data-animation="fadeInUp2" data-delay=".6s">
-                                <del>$430.00</del>
-                                <span class="sale_price">$350.00</span>
+                    @foreach ($banners as $banner)
+                        <div class="slider_item set-bg-image" data-background="{{ asset('dashboard/uplaods/banner') }}/{{ $banner->image }}">
+                            <div class="slider_content">
+                                <h3 class="small_title" data-animation="fadeInUp2" data-delay=".2s">{{ $banner->short_title }}</h3>
+                                <h4 class="big_title" data-animation="fadeInUp2" data-delay=".4s">{{ $banner->product->name }}</h4>
+                                <p data-animation="fadeInUp2" data-delay=".6s">{{ $banner->short_description }}</p>
+                                <div class="item_price" data-animation="fadeInUp2" data-delay=".6s">
+                                    @if ($banner->product->discounted_price)
+                                    <del>{{ currency() }} {{ $banner->product->regular_price }}</del>
+                                    <span class="sale_price">{{ currency() }} {{ $banner->product->discounted_price }}</span>
+                                    @else
+                                    <span class="sale_price">{{ currency() }} {{ $banner->product->regular_price }}</span>
+                                    @endif
+                                </div>
+                                <a class="btn btn_primary" href="{{ route('single.product', $banner->product_id) }}" data-animation="fadeInUp2" data-delay=".8s">Start Buying</a>
                             </div>
-                            <a class="btn btn_primary" href="shop_details.html" data-animation="fadeInUp2" data-delay=".8s">Start Buying</a>
                         </div>
-                    </div>
-                    <div class="slider_item set-bg-image" data-background="{{ asset('frontend') }}/images/slider/slide-3.jpg">
+                    @endforeach
+
+
+                    {{-- <div class="slider_item set-bg-image" data-background="{{ asset('frontend') }}/images/slider/slide-3.jpg">
+
                         <div class="slider_content">
                             <h3 class="small_title" data-animation="fadeInUp2" data-delay=".2s">Clothing</h3>
                             <h4 class="big_title" data-animation="fadeInUp2" data-delay=".4s">Smart blood  <span>Pressure monitor</span></h4>
@@ -44,7 +53,7 @@
                             </div>
                             <a class="btn btn_primary" href="shop_details.html" data-animation="fadeInUp2" data-delay=".8s">Start Buying</a>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -207,19 +216,35 @@
 <section class="promotion_section">
     <div class="container">
         <div class="row promotion_banner_wrap">
-            <div class="col col-lg-6">
+            @foreach ($promotions as $promotion)
+                <div class="col col-lg-6">
+                    <div class="promotion_banner">
+                        <div class="item_image">
+                            <img src="{{ asset('dashboard/uplaods/banner') }}/{{ $promotion->image }}" alt>
+                        </div>
+                        <div class="item_content">
+                            <h3 class="item_title">{{ $promotion->product->name }}</h3>
+                            <p>{{ $promotion->short_description }}</p>
+                            <a class="btn btn_primary" href="{{ route('single.product', $promotion->product_id) }}">Shop Now</a>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+
+            {{-- <div class="col col-lg-6">
                 <div class="promotion_banner">
                     <div class="item_image">
-                        <img src="{{ asset('frontend') }}/images/promotion/banner_img_1.png" alt>
+                        <img src="{{ asset('frontend') }}/images/promotion/banner_img_2.png" alt>
                     </div>
                     <div class="item_content">
-                        <h3 class="item_title">Protective sleeves <span>combo.</span></h3>
-                        <p>It is a long established fact that a reader will be distracted</p>
+                        <h3 class="item_title">Nutrillet blender <span>combo.</span></h3>
+                        <p>
+                            It is a long established fact that a reader will be distracted
+                        </p>
                         <a class="btn btn_primary" href="shop_details.html">Shop Now</a>
                     </div>
                 </div>
             </div>
-
             <div class="col col-lg-6">
                 <div class="promotion_banner">
                     <div class="item_image">
@@ -234,6 +259,20 @@
                     </div>
                 </div>
             </div>
+            <div class="col col-lg-6">
+                <div class="promotion_banner">
+                    <div class="item_image">
+                        <img src="{{ asset('frontend') }}/images/promotion/banner_img_2.png" alt>
+                    </div>
+                    <div class="item_content">
+                        <h3 class="item_title">Nutrillet blender <span>combo.</span></h3>
+                        <p>
+                            It is a long established fact that a reader will be distracted
+                        </p>
+                        <a class="btn btn_primary" href="shop_details.html">Shop Now</a>
+                    </div>
+                </div>
+            </div> --}}
         </div>
     </div>
 </section>

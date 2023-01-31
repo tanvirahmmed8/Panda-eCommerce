@@ -24,16 +24,18 @@
                         <table id="example3" class="table table-responsive-md">
                             <thead>
                                 <tr>
+                                    <th>Code</th>
                                     <th>Product Photo</th>
                                     <th>NAME</th>
                                     <th>Category</th>
-                                    <th>regular_price</th>
+                                    <th>R_price</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse ($products as $product)
                                     <tr>
+                                        <td>{{ $product->id }}</td>
                                         <td>
                                             @if ($product->thumbnail)
                                                 <img src="{{ asset('dashboard/uplaods/product_thumbnail') }}/{{ $product->thumbnail }}"
@@ -43,7 +45,7 @@
                                                     width="100" alt="">
                                             @endif
                                         </td>
-                                        <td>{{ $product->name }}</td>
+                                        <td><a href="{{ route('product.show', $product->id ) }}">{{ $product->name }}</a></td>
                                         <td>{{ $product->categoryid->category_name }}</td>
                                         <td>{{ $product->regular_price }}</td>
                                         <td>

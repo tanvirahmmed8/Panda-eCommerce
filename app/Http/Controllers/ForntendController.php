@@ -10,17 +10,20 @@ use App\Models\Policy;
 use App\Models\Rating;
 use App\Models\Invoice;
 use App\Models\Product;
+use App\Models\Visitor;
 use Khsing\World\World;
 use App\Models\Category;
 use App\Models\Inventory;
 use App\Mail\ContactMessage;
 use Illuminate\Http\Request;
 use App\Models\Invoice_detail;
+use App\Models\ProductPromotion;
+use App\Models\ProductViewCount;
 use Khsing\World\Models\Country;
 use Illuminate\Support\Facades\DB;
 use App\Models\ResentlyViewProduct;
-use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
 
 class ForntendController extends Controller
@@ -81,9 +84,19 @@ class ForntendController extends Controller
             $suggest_products = collect();
         }
 
+        // banner code
+        $banners = ProductPromotion::where([
+            'type' => 'banner',
+            'status' => true
+        ])->get();
+        // promotion code
+        $promotions = ProductPromotion::where([
+            'type' => 'promotion',
+            'status' => true
+        ])->get();
 
 
-        return view('frontend.index', compact('random','new_products','topcats','categories','brands','policeis','products','inventories','latest_products','resently_view_products','suggest_products'));
+        return view('frontend.index', compact('random','new_products','topcats','categories','brands','policeis','products','inventories','latest_products','resently_view_products','suggest_products','banners','promotions'));
     }
     public function shop(Request $request){
         $search = $request['search'] ?? "";
@@ -196,7 +209,21 @@ class ForntendController extends Controller
     public function login_register(){
         return view('frontend.login_register');
     }
-    function team(){
+    function team(Request $request){
+
+
+
+        // user device info start
+        // $userAgent = $request->header('User-Agent');
+        // return $userAgent;
+        // user device info end
+
+        // ip location start
+        // $ip = $request->getClientIp();
+        // $location = json_decode(file_get_contents("http://ipinfo.io/{$ip}/json"));
+        // return $location;
+        // ip location end
+
         $teams = Team::paginate(5);
         $teams_count = Team::count();
         $deleted_team = Team::onlyTrashed()->get();
@@ -276,6 +303,14 @@ class ForntendController extends Controller
         } else {
             $avg_rating = 0;
         }
+
+        // Product view count start
+        ProductViewCount::insert([
+            'product_id' => $id,
+            'created_at' => Carbon::now()
+        ]);
+        // Product view count end
+
 
 
         Cookie::queue('suggest_product', $product->category_id, 4300);

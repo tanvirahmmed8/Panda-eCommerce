@@ -116,6 +116,9 @@ Route::middleware(['auth','vendor'])->group(function () {
     Route::get('vendor/wallet', [VendorController::class, 'vendor_wallet'])->name('vendor.wallet');
     Route::post('vendor/withdraw', [VendorController::class, 'vendor_withdraw'])->name('vendor.withdraw');
     Route::post('vendor/withdraw/request', [VendorController::class, 'withdraw_request'])->name('withdraw.request');
+    Route::get('vendor/applyforpromotion/{product}', [VendorController::class, 'applyforpromotion'])->name('vendor.applyforpromotion');
+    Route::post('vendor/applyfor/banner', [VendorController::class, 'apply_banner'])->name('vendor.apply_banner');
+    Route::post('vendor/applyfor/promotion', [VendorController::class, 'apply_promotion'])->name('vendor.apply_promotion');
 });
 // Only vendor can see this route end
 
@@ -142,6 +145,11 @@ Route::middleware(['auth','admin'])->group(function () {
     //PolicyController end
     //Shipping
     Route::resource('/shipping', ShippingController::class);
+    Route::get('/withdrawal/admin', [HomeController::class, 'withdrawal_admin'])->name('withdrawal.admin');
+    Route::post('/withdrawal/status/change', [HomeController::class, 'withdrawal_status_change'])->name('withdrawal.status_change');
+    Route::get('/promotion/request', [HomeController::class, 'promotion_request'])->name('promotion.request');
+    Route::get('/promotion/request/{id}', [HomeController::class, 'promotion_status_change'])->name('promotion.promotion_status_change');
+    Route::delete('/promotion/delete/{id}', [HomeController::class, 'promotion_delete'])->name('promotion.delete');
 });
 // Only admin can see this route end
 
