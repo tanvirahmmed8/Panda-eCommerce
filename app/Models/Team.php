@@ -19,5 +19,7 @@ class Team extends Model
         'name',
         'phone',
         'email',
+        'designation',
+        'image',
     ];
 }

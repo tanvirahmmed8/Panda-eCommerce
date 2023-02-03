@@ -46,8 +46,8 @@ Route::get('/search-category/{id}', [ForntendController::class, 'search_category
 Route::get('/contact-us', [ForntendController::class, 'contact'])->name('contact');
 Route::post('/contact-post', [ForntendController::class, 'contact_post'])->name('contact.post');
 Route::get('/login-register', [ForntendController::class, 'login_register'])->name('login.register')->middleware(['guest']);
-Route::get('/team', [ForntendController::class, 'team']);
-Route::post('/team/post', [ForntendController::class, 'teampost']);
+Route::get('/team', [ForntendController::class, 'team'])->name('team');
+Route::post('/team/post', [ForntendController::class, 'teampost'])->name('team.post');
 Route::get('/team/edit/{id}', [ForntendController::class, 'teamedit']);
 Route::post('/team/update/{id}', [ForntendController::class, 'teamupdate']);
 Route::get('/team/delete/{id}', [ForntendController::class, 'teamdelete']);

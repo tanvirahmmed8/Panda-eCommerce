@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('phone');
             $table->string('email')->unique();
+            $table->string('image');
+            $table->string('designation');
             $table->timestamps();
             $table->softDeletes();
         });

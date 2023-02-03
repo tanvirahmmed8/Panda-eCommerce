@@ -4,7 +4,7 @@
         @if ($product->discounted_price)
         <span class="theme-badge-2">{{ round(100-(($product->discounted_price/$product->regular_price)*100), 2) }}% off</span>
         @endif
-        @if ($inventories->where('product_id', $product->id)->sum('quantity') < 1)
+        @if (stock($product->id) < 1)
         <span class="theme-badge" style="left:70%;">out</span>
         @endif
     </div>

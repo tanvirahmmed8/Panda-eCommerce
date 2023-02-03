@@ -843,6 +843,12 @@
                             <span class="nav-text">Withdrawal</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="{{ route('team') }}" class="ai-icon" aria-expanded="false">
+                            <i class="flaticon-381-settings-2"></i>
+                            <span class="nav-text">Team</span>
+                        </a>
+                    </li>
                     @endif
 
                     @if (auth()->user()->role == 'vendor')

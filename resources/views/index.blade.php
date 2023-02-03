@@ -1,26 +1,9 @@
-<!doctype html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-</head>
-
-<body style="background-color: rgb(83, 35, 123)">
-
+@extends('layouts.master')
+@section('title') Team  @endsection
+@section('content')
 
 
     <div class="container">
-        <div class="card text-start border-0" style="background-color: rgb(83, 35, 123)">
-            {{-- <img class="card-img-top" src="holder.js/100px180/" alt="Title"> --}}
-            <div class="card-body p-5">
-                {{-- <h4 class="card-title">Title</h4> --}}
-                {{-- <p class="card-text">Body</p> --}}
-            </div>
-        </div>
         <div class="row">
             {{-- <img class="card-img-top" src="holder.js/100x180/" alt="Title"> --}}
             <div class="col-3"></div>
@@ -36,10 +19,10 @@
                             </div>
                         @endif
 
-                        <form class="row g-3 needs-validation" novalidate action="{{ url('team/post') }}"
-                            method="POST">
+                        <form class="row g-3 needs-validation" novalidate action="{{ route('team.post') }}"
+                            method="POST" enctype="multipart/form-data">
                             @csrf
-                            <div class="col-md-12">
+                            <div class="col-md-12 mb-3">
                                 <label for="validationCustom01" class="form-label">Name</label>
                                 <input type="text" class="form-control" name="name" id="validationCustom01"
                                     required>
@@ -47,7 +30,15 @@
                                     Looks good!
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-12 mb-3">
+                                <label for="designation" class="form-label">Designation</label>
+                                <input type="text" class="form-control" name="designation" id="designation"
+                                    required>
+                                <div class="valid-feedback">
+                                    Looks good!
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-3">
                                 <label for="validationCustom02" class="form-label">Phone</label>
                                 <input type="text" class="form-control" name="phone" id="validationCustom02"
                                     required>
@@ -55,18 +46,26 @@
                                     Looks good!
                                 </div>
                             </div>
-                            <div class="col-md-12">
-                                <label for="validationCustomUsername" class="form-label">Email</label>
-                                <div class="input-group has-validation">
+                            <div class="col-md-12 mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                {{-- <div class="input-group has-validation"> --}}
                                     {{-- <span class="input-group-text" id="inputGroupPrepend">@</span> --}}
                                     <input type="email" name="email" class="form-control"
-                                        id="validationCustomUsername" required>
+                                        id="email" id="email" required>
                                     <div class="invalid-feedback">
                                         Please choose a Email.
                                     </div>
+                                {{-- </div> --}}
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label for="image" class="form-label">Image</label>
+                                <input type="file" class="form-control" name="image" id="image"
+                                    required>
+                                <div class="valid-feedback">
+                                    Looks good!
                                 </div>
                             </div>
-                            <div class="col-12">
+                            <div class="col-12 mb-3">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" value="" id="invalidCheck"
                                         required>
@@ -88,24 +87,18 @@
             <div class="col-3"></div>
 
         </div>
-        <div class="card text-start border-0" style="background-color: rgb(83, 35, 123)">
-            {{-- <img class="card-img-top" src="holder.js/100px180/" alt="Title"> --}}
-            <div class="card-body p-5">
-                {{-- <h4 class="card-title">Title</h4> --}}
-                {{-- <p class="card-text">Body</p> --}}
-            </div>
-        </div>
+
         <div class="row">
             {{-- <img class="card-img-top" src="holder.js/100x180/" alt="Title"> --}}
             <div class="col"></div>
-            <div class="col-10">
+            <div class="col-12">
                 <div class="card mb-5">
                     <div class="card-header">
                         <h3 class="d-inline">Team Member
-                            <span class=" badge bg-primary">{{ $teams_count }}</span>
+                            <span class="text-white badge bg-primary">{{ $teams_count }}</span>
                             <span class="float-end">
                                 <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                                     Recycle Bin
                                 </button>
 
@@ -156,7 +149,7 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                         <a href="{{ url('team/restore/all') }}" class=" btn btn-info">Restore All</a>
                                         </div>
                                     </div>
@@ -179,9 +172,8 @@
                                 <thead>
                                     <tr>
                                         <th>SL</th>
-                                        <th>Name</th>
-                                        <th>Phone</th>
-                                        <th>Email</th>
+                                        <th>Image</th>
+                                        <th>Detail</th>
                                         <th>Create At</th>
                                         <th>Action</th>
                                     </tr>
@@ -192,24 +184,31 @@
                                             class="@if ($loop->odd) table-primary @else table-danger @endif">
                                             <td>{{ $teams->firstitem() + $loop->index }}</td>
                                             {{-- <td>{{ $loop->index+1 }}</td> --}}
-                                            <td>{{ $team->name }}</td>
-                                            <td>{{ $team->phone }}</td>
-                                            <td>{{ $team->email }}</td>
+                                            <td>
+                                                <img src="{{ asset('dashboard/uplaods/team_photos') }}/{{ $team->image }}" width="100" alt="">
+                                            </td>
+                                            <td>
+                                                <ul>
+                                                    <li>{{ $team->name }}</li>
+                                                    <li>{{ $team->designation }}</li>
+                                                    <li>{{ $team->phone }}</li>
+                                                    <li>{{ $team->email }}</li>
+                                                </ul>
+                                            </td>
                                             <td>{{ $team->created_at->diffForHumans() }}</td>
 
                                             <td>
                                                 <a href="{{ url('team/delete') }}/{{ $team->id }}"
                                                     class="btn btn-sm btn-danger">Delete</a>
-                                                <a href="{{ url('team/edit') }}/{{ $team->id }}"
-                                                    class="btn btn-sm btn-secondary">Edit</a>
+                                                {{-- <a href="{{ url('team/edit') }}/{{ $team->id }}"
+                                                    class="btn btn-sm btn-secondary">Edit</a> --}}
                                                 <!-- Button trigger modal -->
-                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                                    data-bs-target="#staticBackdrop{{ $team->id}}">
+                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop{{$team->id}}">
                                                     Edit modal
-                                                </button>
+                                                  </button>
 
                                                 <!-- Modal -->
-                                                <div class="modal fade" id="staticBackdrop{{ $team->id}}" data-bs-backdrop="static"
+                                                <div class="modal fade" id="staticBackdrop{{$team->id}}" data-bs-backdrop="static"
                                                     data-bs-keyboard="false" tabindex="-1"
                                                     aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                                     <div class="modal-dialog modal-dialog-centered">
@@ -221,12 +220,20 @@
                                                                     data-bs-dismiss="modal"
                                                                     aria-label="Close"></button>
                                                             </div>
-                                                            <form class="row g-3 needs-validation" novalidate action="{{ url('team/update') }}/{{ $team->id}}" method="POST">
+                                                            <form class="row g-3 needs-validation" novalidate action="{{ url('team/update') }}/{{ $team->id}}" enctype="multipart/form-data" method="POST">
                                                                 @csrf
                                                             <div class="modal-body">
                                                                 <div class="col-md-12">
                                                                     <label for="validationCustom01" class="form-label">Name</label>
                                                                     <input type="text" class="form-control" name="name" id="validationCustom01" value="{{ $team->name }}"
+                                                                        required>
+                                                                    <div class="valid-feedback">
+                                                                        Looks good!
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-12">
+                                                                    <label for="designation" class="form-label">Designation</label>
+                                                                    <input type="text" class="form-control" name="designation" value="{{ $team->designation }}" id="designation"
                                                                         required>
                                                                     <div class="valid-feedback">
                                                                         Looks good!
@@ -243,7 +250,6 @@
                                                                 <div class="col-md-12">
                                                                     <label for="validationCustomUsername" class="form-label">Email</label>
                                                                     <div class="input-group has-validation">
-                                                                        {{-- <span class="input-group-text" id="inputGroupPrepend">@</span> --}}
                                                                         <input type="email" name="email" class="form-control"
                                                                             id="validationCustomUsername"  value="{{ $team->email }}" required>
                                                                         <div class="invalid-feedback">
@@ -251,12 +257,18 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                                <div class="col-md-12">
+                                                                    <label for="image" class="form-label">Image</label>
+                                                                    <input type="file" class="form-control" name="image" id="image"
+                                                                        required>
+                                                                    <div class="valid-feedback">
+                                                                        Looks good!
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                    data-bs-dismiss="modal">Close</button>
-                                                                <button type="submit"
-                                                                    class="btn btn-primary">Update</button>
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                <button type="submit" class="btn btn-primary">Update</button>
                                                             </div>
                                                             </form>
                                                         </div>
@@ -282,37 +294,32 @@
                 </div>
             </div>
             <div class="col"></div>
-
         </div>
     </div>
 
+@endsection
+@push('scripts')
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (() => {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
+</script>
+@endpush
 
 
-
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Example starter JavaScript for disabling form submissions if there are invalid fields
-        (() => {
-            'use strict'
-
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            const forms = document.querySelectorAll('.needs-validation')
-
-            // Loop over them and prevent submission
-            Array.from(forms).forEach(form => {
-                form.addEventListener('submit', event => {
-                    if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                    }
-
-                    form.classList.add('was-validated')
-                }, false)
-            })
-        })()
-    </script>
-</body>
-
-</html>

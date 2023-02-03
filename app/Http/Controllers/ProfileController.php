@@ -34,9 +34,16 @@ class ProfileController extends Controller
         //return $request->file('profile_photo');
         $img = Image::make($request->file('profile_photo'))->resize(196, 196);
         //$path = base_path('public/');
-        $img->save(base_path('public/dashboard/uplaods/profile_photos/'.$new_name), 80);
+        $user_v = User::find(auth()->id());
 
-        User::find(auth()->id())->update([
+        if($user_v->profile_photo){
+            unlink(base_path('public/dashboard/uplaods/profile_photos/'.$user_v->profile_photo));
+            $img->save(base_path('public/dashboard/uplaods/profile_photos/'.$new_name), 80);
+        }else{
+            $img->save(base_path('public/dashboard/uplaods/profile_photos/'.$new_name), 80);
+        }
+
+        $user_v->update([
             'profile_photo' => $new_name
         ]);
         return back();
@@ -51,10 +58,17 @@ class ProfileController extends Controller
 
 
          $img = Image::make($request->file('cover_photo'))->resize(1600, 451);
+         $user_v = User::find(auth()->id());
 
-         $img->save(base_path('public/dashboard/uplaods/cover_photos/'.$new_name), 80);
+        if($user_v->cover_photo){
+            unlink(base_path('public/dashboard/uplaods/cover_photos/'.$user_v->cover_photo));
+            $img->save(base_path('public/dashboard/uplaods/cover_photos/'.$new_name), 80);
+        }else{
+            $img->save(base_path('public/dashboard/uplaods/cover_photos/'.$new_name), 80);
+        }
 
-        User::find(auth()->id())->update([
+
+         $user_v->update([
             'cover_photo' => $new_name
         ]);
         return back();

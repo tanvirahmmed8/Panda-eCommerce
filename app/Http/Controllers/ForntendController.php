@@ -23,6 +23,7 @@ use Khsing\World\Models\Country;
 use Illuminate\Support\Facades\DB;
 use App\Models\ResentlyViewProduct;
 use Illuminate\Support\Facades\Mail;
+use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
 
@@ -35,7 +36,7 @@ class ForntendController extends Controller
         //$products = Product::limit(6)->get();
         $latest_products = Product::limit(8)->latest()->get();
         $new_products = Product::limit(4)->latest()->get();
-        $inventories = Inventory::all();
+        // $inventories = Inventory::all();
         $random = Product::inRandomOrder()->limit(1)->get();
 
         // best sell Category start
@@ -48,7 +49,7 @@ class ForntendController extends Controller
             ->get();
         $topcats = [];
         foreach ($top_sales_cat as $cc){
-            $cat = Category::findOrFail($cc->category_id);
+            $cat = $categories->find($cc->category_id);
             $cat->totalQty = $cc->total;
             $topcats[] = $cat;
         }
@@ -96,7 +97,7 @@ class ForntendController extends Controller
         ])->get();
 
 
-        return view('frontend.index', compact('random','new_products','topcats','categories','brands','policeis','products','inventories','latest_products','resently_view_products','suggest_products','banners','promotions'));
+        return view('frontend.index', compact('random','new_products','topcats','categories','brands','policeis','products','latest_products','resently_view_products','suggest_products','banners','promotions'));
     }
     public function shop(Request $request){
         $search = $request['search'] ?? "";
@@ -106,13 +107,13 @@ class ForntendController extends Controller
             $products = Product::paginate(6);
         }
 
-        $inventories = Inventory::all();
-        return view('frontend.shop', compact('products','inventories','search'));
+        // $inventories = Inventory::all();
+        return view('frontend.shop', compact('products','search'));
     }
     public function search_category($id){
         $products = Product::where('category_id', $id)->paginate(6);
-        $inventories = Inventory::all();
-        return view('frontend.search_category', compact('products','inventories'));
+        // $inventories = Inventory::all();
+        return view('frontend.search_category', compact('products'));
     }
     public function cart(){
         return view('frontend.cart');
@@ -201,7 +202,8 @@ class ForntendController extends Controller
     }
 
     public function about(){
-        return view('frontend.about');
+        $teams = Team::all();
+        return view('frontend.about', compact('teams'));
     }
     public function contact(){
         return view('frontend.contact');
@@ -231,11 +233,20 @@ class ForntendController extends Controller
        }
 
         function teampost(Request $request){
-            //$request->name;
+            $request->validate([
+                '*' => 'required',
+            ]);
+
+        $final_name = str_replace(" ","_",$request->name);
+        $new_name = $final_name.'_'.Carbon::now()->format('Y').'_'.time().'.'.$request->file('image')->getClientOriginalExtension();
+        $img = Image::make($request->file('image'))->resize(540, 540);
+        $img->save(base_path('public/dashboard/uplaods/team_photos/'.$new_name), 90);
           Team::insert([
             'name' => $request->name,
             'phone' => $request->phone,
             'email' => $request->email,
+            'designation' => $request->designation,
+            'image' => $new_name,
             'created_at' => Carbon::now()
           ]);
           return back()->with('success', 'Team member Added Successfully!');
@@ -257,12 +268,25 @@ class ForntendController extends Controller
 
        function teamupdate(Request $request, $id){
             // return $request;
-            Team::find($id)->update([
+            $team = Team::find($id);
+            $team->update([
                 'name' => $request->name,
                 'phone' => $request->phone,
-                'email' => $request->email
-                // 'created_at' => Carbon::now()
+                'email' => $request->email,
+                'designation' => $request->designation
             ]);
+
+            if($request->hasFile('image')){
+                unlink(base_path('public/dashboard/uplaods/team_photos/'.$team->image));
+                $final_name = str_replace(" ","_",$request->name);
+                $new_name = $final_name.'_'.Carbon::now()->format('Y').'_'.time().'.'.$request->file('image')->getClientOriginalExtension();
+                $img = Image::make($request->file('image'))->resize(540, 540);
+                $img->save(base_path('public/dashboard/uplaods/team_photos/'.$new_name), 90);
+                $team->update([
+                    'image' => $new_name
+                ]);
+            }
+
             return redirect('team')->with('delete_massege', 'Team member Updateed Successfully!');
        }
 
@@ -295,7 +319,7 @@ class ForntendController extends Controller
     function single_product($id){
         $product = Product::find($id);
         $related_product = Product::where('category_id', $product->category_id)->where('id', '!=', $id)->limit(6)->get();
-        $inventories = Inventory::all();
+        // $inventories = Inventory::all();
         $ratings = Rating::where('product_id', $id)->with('user')->get();
         $rating_sum = Rating::where('product_id', $id)->sum('rating');
         if ($ratings->count() > 0) {
@@ -310,8 +334,6 @@ class ForntendController extends Controller
             'created_at' => Carbon::now()
         ]);
         // Product view count end
-
-
 
         Cookie::queue('suggest_product', $product->category_id, 4300);
 
@@ -334,11 +356,9 @@ class ForntendController extends Controller
                     'created_at' => Carbon::now()
                 ]);
             }
-            // resently_view_products code end
+        // resently_view_products code end
 
-
-
-        return view('frontend.single_product',compact('product','related_product','inventories','ratings','avg_rating'));
+        return view('frontend.single_product',compact('product','related_product','ratings','avg_rating'));
     }
 
 

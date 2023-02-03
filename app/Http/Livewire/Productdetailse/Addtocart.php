@@ -50,10 +50,11 @@ class Addtocart extends Component
     public function updatedColorDropdown($inventory_id){
         $this->inventory = Inventory::find($inventory_id);
         $this->stock = $this->inventory->quantity;
-        if (Product::find($this->inventory->product_id)->discounted_price) {
-            $this->unit_price = Product::find($this->inventory->product_id)->discounted_price;
+        $product = Product::find($this->inventory->product_id);
+        if ($product->discounted_price) {
+            $this->unit_price = $product->discounted_price;
         }else{
-            $this->unit_price = Product::find($this->inventory->product_id)->regular_price;
+            $this->unit_price = $product->regular_price;
         }
 
         $this->total_price = $this->unit_price;
