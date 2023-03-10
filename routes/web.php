@@ -7,14 +7,15 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\PolicyController;
+use App\Http\Controllers\RatingController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ForntendController;
-use App\Http\Controllers\RatingController;
 use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\VariationController;
 use App\Http\Controllers\SslCommerzPaymentController;
@@ -150,6 +151,10 @@ Route::middleware(['auth','admin'])->group(function () {
     Route::get('/promotion/request', [HomeController::class, 'promotion_request'])->name('promotion.request');
     Route::get('/promotion/request/{id}', [HomeController::class, 'promotion_status_change'])->name('promotion.promotion_status_change');
     Route::delete('/promotion/delete/{id}', [HomeController::class, 'promotion_delete'])->name('promotion.delete');
+    Route::get('/setting/genarel', [SettingController::class, 'setting_genarel'])->name('setting.genarel');
+    Route::post('/setting/genarel/save', [SettingController::class, 'setting_genarel_save'])->name('setting.genarel.save');
+    Route::get('/setting/logo', [SettingController::class, 'setting_logo'])->name('setting.logo');
+    Route::post('/setting/logo_update', [SettingController::class, 'logo_update'])->name('setting.logo.update');
 });
 // Only admin can see this route end
 

@@ -1,11 +1,13 @@
 <?php
 
 use App\Models\Cart;
+use App\Models\Logo;
 use App\Models\Rating;
+use App\Models\Invoice;
 use App\Models\Product;
+use App\Models\Setting;
 use App\Models\Category;
 use App\Models\Inventory;
-use App\Models\Invoice;
 
 function cartcount()
 {
@@ -45,6 +47,14 @@ function rating($id){
 function stock($id){
     $inventories = Inventory::where('product_id', $id)->sum('quantity');
    return $inventories;
+}
+function setting($key){
+    $setting = Setting::where('setting_key', $key)->first()->setting_value;
+   return $setting;
+}
+function logo($key){
+    $logo = Logo::where('logo_key', $key)->first()->logo_value;
+   return $logo;
 }
 
 function ordertotal($discount, $subtotal, $delivery_charge){

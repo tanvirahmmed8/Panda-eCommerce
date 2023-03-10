@@ -17,7 +17,7 @@
             <!-- contact_section - start
             ================================================== -->
             <div class="map_section">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d193595.9147703055!2d-74.11976314309273!3d40.69740344223377!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew+York%2C+NY%2C+USA!5e0!3m2!1sen!2sbd!4v1547528325671" allowfullscreen>
+                <iframe src="{{ setting('location_map') }}" allowfullscreen>
                 </iframe>
             </div>
             <!-- contact_section - end
@@ -34,23 +34,23 @@
                                 <div class="decoration_image">
                                     <img src="{{ asset('frontend') }}/images/leaf.png" alt="image_not_found">
                                 </div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                <p>{{ setting('address_information') }}</p>
                                 <div class="row">
                                     <div class="col col-md-6">
                                         <div class="contact_info_list">
-                                            <h4 class="list_title">Colourbar U.S.A</h4>
+                                            {{-- <h4 class="list_title">Colourbar U.S.A</h4> --}}
                                             <ul class="ul_li_block">
-                                                <li>Dhaka In Twin Tower Concord </li>
-                                                <li>Shopping Complex</li>
-                                                <li>Open  Closes 8:30PM </li>
-                                                <li>yourinfo@gmail.com</li>
-                                                <li>(1200)-0989-568-331</li>
+                                                <li>{{ setting('contact_address') }}</li>
+                                                {{-- <li>Shopping Complex</li> --}}
+                                                {{-- <li>Open  Closes 8:30PM </li> --}}
+                                                <li>{{ setting('contact_email') }}</li>
+                                                <li>{{ setting('contact_number') }}</li>
                                             </ul>
                                         </div>
                                     </div>
 
                                     <div class="col col-md-6">
-                                        <div class="contact_info_list">
+                                        {{-- <div class="contact_info_list">
                                             <h4 class="list_title">USA Exchanger</h4>
                                             <ul class="ul_li_block">
                                                 <li>Dhaka In Twin Tower Concord </li>
@@ -59,7 +59,7 @@
                                                 <li>yourinfo@gmail.com</li>
                                                 <li>(1200)-0989-568-331</li>
                                             </ul>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 </div>
                             </div>
@@ -71,7 +71,7 @@
                                 <div class="decoration_image">
                                     <img src="{{ asset('frontend') }}/images/leaf.png" alt="image_not_found">
                                 </div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                <p>{{ setting('get_in_touch') }}</p>
                                 @if (session('success'))
                                     <div class="alert alert-success">
                                         {{ session('success') }}

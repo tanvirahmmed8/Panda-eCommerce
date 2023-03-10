@@ -41,9 +41,9 @@
         ***********************************-->
         <div class="nav-header">
             <a href="{{ route('home') }}" class="brand-logo">
-                <img class="logo-abbr" src="{{ asset('dashboard') }}/images/logo.png" alt="">
-                <img class="logo-compact" src="{{ asset('dashboard') }}/images/logo-text.png" alt="">
-                <img class="brand-title" src="{{ asset('dashboard') }}/images/logo-text.png" alt="">
+                {{-- <img class="logo-abbr" src="{{ asset('dashboard') }}/images/logo.png" alt=""> --}}
+                {{-- <img class="logo-compact" src="{{ asset('dashboard') }}/images/logo-text.png" alt=""> --}}
+                <img class="brand-title" src="{{ asset('dashboard/uplaods/logo') }}/{{ logo('backend_logo') }}" alt="">
             </a>
 
             <div class="nav-control">
@@ -848,6 +848,17 @@
                             <i class="flaticon-381-settings-2"></i>
                             <span class="nav-text">Team</span>
                         </a>
+                    </li>
+                     <li>
+                        <a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                            <i class="flaticon-381-networking"></i>
+                            <span class="nav-text">Settings</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href="{{ route('setting.genarel') }}">Genarel Setting</a></li>
+                            <li><a href="{{ route('setting.logo') }}">Logo</a></li>
+                            <li><a href="{{ route('brand.create') }}">Socialmedia</a></li>
+                        </ul>
                     </li>
                     @endif
 

@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ env('APP_NAME') }} -  @yield('title')</title>
-    <link rel="shortcut icon" href="{{ asset('frontend') }}/images/logo/favourite_icon_1.png">
+    <link rel="shortcut icon" href="{{ asset('dashboard/uplaods/logo') }}/{{ logo('fav_icon') }}">
 
     <!-- fraimwork - css include -->
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/css/bootstrap.min.css">
@@ -129,7 +129,7 @@
                             </ul>
                         </div>
                         <div class="col col-md-6">
-                            <p class="header_hotline">Call us toll free: <strong>+1888 234 5678</strong></p>
+                            <p class="header_hotline">Call us: <strong>{{ setting('contact_number') }}</strong></p>
                             <a href="{{ route('vendor.registration') }}" class="header_hotline">Vendor Registration</a>
                         </div>
                     </div>
@@ -142,14 +142,14 @@
                         <div class="col col-lg-3 col-md-3 col-sm-12">
                             <div class="brand_logo">
                                 <a class="brand_link" href="{{  route('index') }}">
-                                    <img src="{{ asset('frontend') }}/images/logo/logo_1x.png" srcset="{{ asset('frontend') }}/images/logo/logo_1x.png" alt>
+                                    <img src="{{ asset('dashboard/uplaods/logo') }}/{{ logo('frontend_header_logo') }}" srcset="{{ asset('dashboard/uplaods/logo') }}/{{ logo('frontend_header_logo') }}" alt>
                                 </a>
                             </div>
                         </div>
                         <div class="col col-lg-6 col-md-6 col-sm-12">
                             <div class="advance_serach">
                                 <div class="select_option mb-0 clearfix">
-                                    <select class="form-select border-0" style="box-shadow:none">
+                                    {{-- <select class="form-select border-0" style="box-shadow:none">
                                         <option data-display="All Categories">Select A Category</option>
                                         <option >New Arrival Products</option>
                                         <option value="2">Most Popular Products</option>
@@ -158,7 +158,7 @@
                                         <option value="5">Computer Accessories</option>
                                         <option value="6">Consumer Electronics</option>
                                         <option value="7">Automobiles & Motorcycles</option>
-                                    </select>
+                                    </select> --}}
                                 </div>
                                 <div class="form_item">
                                     <form action="{{ route('shop') }}" method="GET">
@@ -354,7 +354,7 @@
                     <div class="row align-items-center">
                         <div class="col col-lg-6">
                             <h2 class="newsletter_title text-white">Sign Up for Newsletter </h2>
-                            <p>Get E-mail updates about our latest products and special offers.</p>
+                            <p>{{ setting('newsletter_text') }}</p>
                         </div>
                         <div class="col col-lg-6">
                             <form action="#!">
@@ -384,7 +384,7 @@
                             <div class="footer_widget footer_about">
                                 <div class="brand_logo">
                                     <a class="brand_link" href="{{  route('index') }}">
-                                        <img src="{{ asset('frontend') }}/images/logo/logo_1x.png" srcset="{{ asset('frontend') }}/images/logo/logo_1x.png" alt="logo_not_found">
+                                        <img src="{{ asset('dashboard/uplaods/logo') }}/{{ logo('frontend_footer_logo') }}" srcset="{{ asset('dashboard/uplaods/logo') }}/{{ logo('frontend_footer_logo') }}" alt="logo_not_found">
                                     </a>
                                 </div>
                                 <ul class="social_round ul_li">
@@ -401,11 +401,13 @@
                             <div class="footer_widget footer_useful_links">
                                 <h3 class="footer_widget_title text-uppercase">Quick Links</h3>
                                 <ul class="ul_li_block">
-                                    <li><a href="about.html">About Us</a></li>
-                                    <li><a href="contact.html">Contact Us</a></li>
-                                    <li><a href="shop.html">Products</a></li>
-                                    <li><a href="login.html">Login</a></li>
-                                    <li><a href="register.html">Sign Up</a></li>
+                                    <li><a href="{{ route('about') }}">About Us</a></li>
+                                    <li><a href="{{ route('contact') }}">Contact Us</a></li>
+                                    <li><a href="{{ route('shop') }}">Products</a></li>
+                                    @guest
+                                    <li><a href="{{ route('login.register') }}">Login</a></li>
+                                    <li><a href="{{ route('login.register') }}">Sign Up</a></li>
+                                    @endguest
                                 </ul>
                             </div>
                         </div>
@@ -414,11 +416,11 @@
                             <div class="footer_widget footer_useful_links">
                                 <h3 class="footer_widget_title text-uppercase">Custom area</h3>
                                 <ul class="ul_li_block">
-                                    <li><a href="#!">My Account</a></li>
-                                    <li><a href="#!">Orders</a></li>
-                                    <li><a href="#!">Team</a></li>
+                                    <li><a href="{{ route('home') }}">My Account</a></li>
+                                    <li><a href="{{ route('home') }}">Orders</a></li>
+                                    <li><a href="{{ route('team') }}">Team</a></li>
                                     <li><a href="#!">Privacy Policy</a></li>
-                                    <li><a href="#!">My Cart</a></li>
+                                    <li><a href="{{ route('cart') }}">My Cart</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -427,7 +429,7 @@
                             <div class="footer_widget footer_contact">
                                 <h3 class="footer_widget_title text-uppercase">Contact Onfo</h3>
                                 <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.
+                                    {{ setting('contact_info') }}
                                 </p>
                                 <div class="hotline_wrap">
                                     <div class="footer_hotline">
@@ -436,12 +438,12 @@
                                         </div>
                                         <div class="item_content">
                                             <h4 class="item_title">Have any question?</h4>
-                                            <span class="hotline_number">+ 123 456 7890</span>
+                                            <span class="hotline_number">{{ setting('contact_number') }}</span>
                                         </div>
                                     </div>
-                                    <div class="livechat_btn clearfix">
+                                    {{-- <div class="livechat_btn clearfix">
                                         <a class="btn border_primary" href="#!">Live Chat</a>
-                                    </div>
+                                    </div> --}}
                                 </div>
                                 <ul class="store_btns_group ul_li">
                                     <li><a href="#!"><img src="{{ asset('frontend') }}/images/app_store.png" alt="app_store"></a></li>
@@ -458,7 +460,7 @@
                     <div class="row align-items-center">
                         <div class="col col-md-6">
                             <p class="copyright_text">
-                                ©2021 <a href="#!">stowaa</a>. All Rights Reserved.
+                                {!! setting('copyright_area') !!}
                             </p>
                         </div>
 
@@ -504,6 +506,12 @@
     s1.setAttribute('crossorigin','*');
     s0.parentNode.insertBefore(s1,s0);
     })();
+
+    function reloadMyView() {
+        $.get('/my-view', function (data) {
+            $('#my-view-content').html(data);
+        });
+    }
     </script>
     <!--End of Tawk.to Script-->
 
