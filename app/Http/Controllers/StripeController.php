@@ -38,7 +38,7 @@ class StripeController extends Controller
                     "amount" => $price * 100,
                     "currency" => "usd",
                     "source" => $request->stripeToken,
-                    "description" => "Test payment from itsolutionstuff.com.",
+                    "description" => "Test payment from itsolutionstuff.com.Invoice_id=".session('invoice_id'),
                     // "customer" => auth()->id()
             ]);
 

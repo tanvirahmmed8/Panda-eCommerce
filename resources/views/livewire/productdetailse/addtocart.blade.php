@@ -42,7 +42,7 @@
                 </button>
             </div>
         </div>
-        <div class="total_price" id="total_p">Total: ${{ $total_price }}</div>
+        <div class="total_price" id="total_p">Total: {{ currency() }}{{ $total_price }}</div>
     </div>
     @if (session()->has('cart_success'))
         <div class="alert alert-success">

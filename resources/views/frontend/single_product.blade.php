@@ -41,7 +41,7 @@
                                             <img src="{{ asset('dashboard/uplaods/product_thumbnail') }}/{{ $product_image->image }}" alt="image_not_found">
                                         </div>
                                     @endforeach
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -68,10 +68,10 @@
 
                                 <div class="item_price">
                                     @if ($product->discounted_price)
-                                        <span class="product_price">${{ $product->discounted_price }}</span>
-                                        <del>${{ $product->regular_price }}</del>
+                                        <span class="product_price">{{ currency() }}{{ $product->discounted_price }}</span>
+                                        <del>{{ currency() }}{{ $product->regular_price }}</del>
                                     @else
-                                        <span class="product_price">${{ $product->regular_price }}</span>
+                                        <span class="product_price">{{ currency() }}{{ $product->regular_price }}</span>
                                     @endif
                                 </div>
                                 <hr>

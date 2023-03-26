@@ -4090,7 +4090,7 @@ hr {
 }
 .shop-product-area .product-area .grid {
   background: white;
-  width: calc(33.33% - 30px);
+  width: calc(25% - 32px);
   float: left;
   margin: 0 15px 45px;
   padding: 25px;
@@ -4373,7 +4373,7 @@ hr {
 
 @media (max-width: 1199px) {
   .shop-product-area .product-area .grid {
-    width: calc(50% - 30px);
+    width: calc(33.33% - 30px);
   }
 }
 @media (max-width: 550px) {
