@@ -136,6 +136,8 @@ class Addtocart extends Component
 /////////////////////////////
 
         $this->count_show = "d-none";
+        $this->emit('updateCartCounter');
+        $this->emit('updateSidebarCart');
 
     }
 

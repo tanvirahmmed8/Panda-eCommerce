@@ -102,9 +102,9 @@ class ForntendController extends Controller
     public function shop(Request $request){
         $search = $request['search'] ?? "";
         if ($search != "") {
-            $products = Product::where('name','LIKE',"%$search%")->paginate(6);
+            $products = Product::where('name','LIKE',"%$search%")->paginate(8);
         } else {
-            $products = Product::paginate(6);
+            $products = Product::paginate(8);
         }
 
         // $inventories = Inventory::all();

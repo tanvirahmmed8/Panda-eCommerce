@@ -26,10 +26,15 @@ class Show extends Component
     public function cart_delete($cart_id)
     {
         Cart::findOrFail($cart_id)->delete();
+        $this->emit('updateCartCounter');
+        $this->emit('updateSidebarCart');
     }
     public function decrement($cart_id)
     {
-        Cart::find($cart_id)->decrement('quantity');
+        $dec = Cart::find($cart_id);
+        if ($dec->quantity > 1) {
+            $dec->decrement('quantity');
+        }
     }
     public function increment($cart_id)
     {
@@ -40,9 +45,11 @@ class Show extends Component
     {
         $this->quantity = $quantity;
         if($quantity){
-            Cart::find($cart_id)->update([
-                'quantity' => $quantity,
-            ]);
+            if($quantity >= 1){
+                Cart::find($cart_id)->update([
+                    'quantity' => $quantity,
+                ]);
+            }
         }
 
     }

@@ -9,10 +9,6 @@ use App\Models\Setting;
 use App\Models\Category;
 use App\Models\Inventory;
 
-function cartcount()
-{
-    return Cart::where('user_id', auth()->id())->count();
-}
 function cat(){
     return $categories = Category::all();
 }
@@ -80,10 +76,6 @@ function ordertotal($discount, $subtotal, $delivery_charge){
     }
 }
 
-function cartg(){
-    $cartgs = Cart::where('user_id', auth()->id())->get();
-    return $cartgs;
-}
 function currency(){
     return "৳";
 }
