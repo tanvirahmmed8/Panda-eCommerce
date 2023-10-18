@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 use App\Models\Brand;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 
 class BrandController extends Controller
 {
-     /**
+    /**
      * Create a new controller instance.
      *
      * @return void
@@ -18,7 +18,7 @@ class BrandController extends Controller
     {
         $this->middleware('auth');
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -27,6 +27,7 @@ class BrandController extends Controller
     public function index()
     {
         $brands = Brand::all();
+
         return view('dashboard.brand.index', compact('brands'));
     }
 
@@ -52,20 +53,20 @@ class BrandController extends Controller
             'brand_logo' => 'required|image',
             'brand_link' => 'required|url',
         ]);
-          //  image part start
-          $new_name = 'brand'.'_'.auth()->id().'_'.Carbon::now()->format('Y').'_'.time().'.'.$request->file('brand_logo')->getClientOriginalExtension();
-          $img = Image::make($request->file('brand_logo'))->resize(344, 60);
-          $img->save(base_path('public/dashboard/uplaods/brand_logo/'.$new_name), 90);
-          //  image part end
+        //  image part start
+        $new_name = 'brand'.'_'.auth()->id().'_'.Carbon::now()->format('Y').'_'.time().'.'.$request->file('brand_logo')->getClientOriginalExtension();
+        $img = Image::make($request->file('brand_logo'))->resize(344, 60);
+        $img->save(base_path('public/dashboard/uplaods/brand_logo/'.$new_name), 90);
+        //  image part end
 
-          //  insert data in databese
-         Brand::insert([
+        //  insert data in databese
+        Brand::insert([
             'brand_logo' => $new_name,
             'brand_link' => $request->brand_link,
             'created_at' => Carbon::now(),
-         ]);
+        ]);
 
-         return back()->with('success', 'Brand successfully added!');
+        return back()->with('success', 'Brand successfully added!');
     }
 
     /**
@@ -99,21 +100,20 @@ class BrandController extends Controller
      */
     public function update(Request $request, Brand $brand)
     {
-         $request->validate([
-            'brand_link' => 'required|url'
+        $request->validate([
+            'brand_link' => 'required|url',
         ]);
         Brand::find($brand->id)->update([
-            'brand_link' => $request->brand_link
+            'brand_link' => $request->brand_link,
         ]);
         if ($request->hasFile('brand_logo')) {
-
             unlink(base_path('public/dashboard/uplaods/brand_logo/'.$brand->brand_logo));
             //  image part start
-          $new_name = 'brand'.'_'.auth()->id().'_'.Carbon::now()->format('Y').'_'.time().'.'.$request->file('brand_logo')->getClientOriginalExtension();
-          $img = Image::make($request->file('brand_logo'))->resize(344, 60);
-          $img->save(base_path('public/dashboard/uplaods/brand_logo/'.$new_name), 90);
-          Brand::find($brand->id)->update([
-            'brand_logo' => $new_name
+            $new_name = 'brand'.'_'.auth()->id().'_'.Carbon::now()->format('Y').'_'.time().'.'.$request->file('brand_logo')->getClientOriginalExtension();
+            $img = Image::make($request->file('brand_logo'))->resize(344, 60);
+            $img->save(base_path('public/dashboard/uplaods/brand_logo/'.$new_name), 90);
+            Brand::find($brand->id)->update([
+                'brand_logo' => $new_name,
             ]);
         }
         // return $brand->brand_logo;
@@ -130,23 +130,26 @@ class BrandController extends Controller
     {
         unlink(base_path('public/dashboard/uplaods/brand_logo/'.$brand->brand_logo));
         $brand->delete();
+
         return back();
     }
 
-    public function change_status(Request $request,$id){
+    public function change_status(Request $request, $id)
+    {
         $request->validate([
-            'status' => 'required'
+            'status' => 'required',
         ]);
 
         if ($request->status == 'active') {
             Brand::find($id)->update([
-                'status' => 'active'
+                'status' => 'active',
             ]);
-        }else{
+        } else {
             Brand::find($id)->update([
-                'status' => 'deactive'
+                'status' => 'deactive',
             ]);
         }
+
         return back();
     }
 }

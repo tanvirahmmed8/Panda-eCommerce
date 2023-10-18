@@ -10,7 +10,7 @@ class Withdraw extends Model
     use HasFactory;
 
     protected $fillable = [
-        'status'
+        'status',
     ];
 
     /**
@@ -22,6 +22,7 @@ class Withdraw extends Model
     {
         return $this->hasOne(User::class, 'id', 'vendor_id');
     }
+
     public function invoice_info()
     {
         return $this->hasOne(Invoice::class, 'id', 'invoice_id');

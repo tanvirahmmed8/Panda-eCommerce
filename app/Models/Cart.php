@@ -8,23 +8,26 @@ use Illuminate\Database\Eloquent\Model;
 class Cart extends Model
 {
     use HasFactory;
+
     protected $fillable = ['quantity'];
 
-    function productrel()
+    public function productrel()
     {
         return $this->hasOne(Product::class, 'id', 'product_id');
     }
-    function size_rel()
+
+    public function size_rel()
     {
         return $this->hasOne(Size::class, 'id', 'size_id');
     }
-    function color_rel()
+
+    public function color_rel()
     {
         return $this->hasOne(Color::class, 'id', 'color_id');
     }
-    function vendor_rel()
+
+    public function vendor_rel()
     {
         return $this->hasOne(User::class, 'id', 'vendor_id');
     }
-
 }

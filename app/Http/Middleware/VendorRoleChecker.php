@@ -16,10 +16,10 @@ class VendorRoleChecker
      */
     public function handle(Request $request, Closure $next)
     {
-        
         if (auth()->user()->role != 'vendor') {
             abort(404);
-         }
+        }
+
         return $next($request);
     }
 }

@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Session;
-use Stripe\Charge;
-use Stripe\Stripe;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
+use Stripe\Charge;
+use Stripe\Stripe;
 
 class StripeController extends Controller
 {
@@ -30,26 +29,24 @@ class StripeController extends Controller
         if (session('total_price')) {
             $price = session('total_price');
 
-
             // return $request;
             Stripe::setApiKey(env('STRIPE_SECRET'));
 
-            Charge::create ([
-                    "amount" => $price * 100,
-                    "currency" => "usd",
-                    "source" => $request->stripeToken,
-                    "description" => "Test payment from itsolutionstuff.com.Invoice_id=".session('invoice_id'),
-                    // "customer" => auth()->id()
+            Charge::create([
+                'amount' => $price * 100,
+                'currency' => 'usd',
+                'source' => $request->stripeToken,
+                'description' => 'Test payment from itsolutionstuff.com.Invoice_id='.session('invoice_id'),
+                // "customer" => auth()->id()
             ]);
 
             Invoice::find(session('invoice_id'))->update([
-                'payment_status' => 'paid'
+                'payment_status' => 'paid',
             ]);
 
             return redirect('cart')->with('success', 'Payment successful!');
         } else {
             return redirect('cart')->with('success', 'Opps!');
         }
-
     }
 }

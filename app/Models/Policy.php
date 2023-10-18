@@ -8,5 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Policy extends Model
 {
     use HasFactory;
-    protected $fillable = ['status','policy_name','policy_text','policy_icon'];
+
+    protected $fillable = ['status', 'policy_name', 'policy_text', 'policy_icon'];
 }

@@ -71,11 +71,11 @@ class ShippingController extends Controller
     {
         // return $shipping->id;
         $request->validate([
-            '*' => 'required'
+            '*' => 'required',
         ]);
         Shipping::find($shipping->id)->update([
             'shipping' => $request->shipping,
-            'shipping_value' => $request->shipping_value
+            'shipping_value' => $request->shipping_value,
         ]);
 
         return back()->with('success', 'Shipping Updated Successfully!');
@@ -90,6 +90,7 @@ class ShippingController extends Controller
     public function destroy(Shipping $shipping)
     {
         $shipping->delete();
+
         return back();
     }
 }

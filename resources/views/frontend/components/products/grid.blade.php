@@ -4,7 +4,7 @@
         @if ($product->discounted_price)
         <span class="theme-badge-2">{{ round(100-(($product->discounted_price/$product->regular_price)*100), 2) }}% off</span>
         @endif
-        @if (stock($product->id) < 1)
+        @if (stock($product) < 1)
         <span class="theme-badge" style="left:70%;">out</span>
         @endif
     </div>
@@ -12,7 +12,7 @@
         <h4><a href="{{ route('single.product', $product->id) }}">{{ Str::limit($product->name, 15, '...') }}</a></h4>
         <p><a href="{{ route('single.product', $product->id) }}">{{ Str::limit($product->short_description, 60, '...') }} </a></p>
         @php
-            $avg = number_format(rating($product->id));
+            $avg = number_format(rating($product));
         @endphp
         <div class="rating">
             @for ($i = 1; $i <= $avg; $i++)

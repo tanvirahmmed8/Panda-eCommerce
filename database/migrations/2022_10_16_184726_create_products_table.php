@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('name');
             $table->integer('category_id');
             $table->integer('vendor_id');
-            $table->float('purchase_price', 8,2);
-            $table->float('regular_price', 8,2);
-            $table->float('discounted_price', 8,2)->nullable();
+            $table->float('purchase_price', 8, 2);
+            $table->float('regular_price', 8, 2);
+            $table->float('discounted_price', 8, 2)->nullable();
             $table->longText('description');
             $table->text('short_description')->nullable();
             $table->longText('additional_information');

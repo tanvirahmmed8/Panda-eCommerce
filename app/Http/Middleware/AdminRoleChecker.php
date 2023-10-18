@@ -16,10 +16,10 @@ class AdminRoleChecker
      */
     public function handle(Request $request, Closure $next)
     {
-        
         if (auth()->user()->role != 'admin') {
-           abort(404);
+            abort(404);
         }
+
         return $next($request);
     }
 }

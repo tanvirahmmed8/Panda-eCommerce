@@ -2,9 +2,9 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
-use Carbon\Carbon;
 use App\Models\Visitor;
+use Carbon\Carbon;
+use Closure;
 use Illuminate\Http\Request;
 
 class TrackVisitors
@@ -18,22 +18,18 @@ class TrackVisitors
      */
     public function handle(Request $request, Closure $next)
     {
-
         $visitor = Visitor::where([
             'ip_address' => request()->ip(),
             'user_agent' => request()->userAgent(),
         ])->where('created_at', '>', Carbon::now()->subMinutes(3))->first();
 
         if ($visitor == false) {
-                Visitor::create([
+            Visitor::create([
                 'ip_address' => request()->ip(),
                 'user_agent' => request()->userAgent(),
-                ]);
+            ]);
         }
 
-
-
-
-         return $next($request);
+        return $next($request);
     }
 }

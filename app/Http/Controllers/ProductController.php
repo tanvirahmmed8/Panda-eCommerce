@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
-use App\Models\Size;
-use App\Models\Color;
-use App\Models\Product;
 use App\Models\Category;
+use App\Models\Color;
 use App\Models\Inventory;
+use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\ProductViewCount;
-use Illuminate\Support\Str;
+use App\Models\Size;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 
 class ProductController extends Controller
@@ -23,8 +23,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return view('dashboard.product.index',[
-            'products' => Product::with('categoryid')->where('vendor_id', auth()->id())->get()
+        return view('dashboard.product.index', [
+            'products' => Product::with('categoryid')->where('vendor_id', auth()->id())->get(),
         ]);
     }
 
@@ -35,7 +35,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories = Category::get(['id','category_name']);
+        $categories = Category::get(['id', 'category_name']);
+
         return view('dashboard.product.create', compact('categories'));
     }
 
@@ -56,15 +57,15 @@ class ProductController extends Controller
             'description' => 'required',
             'short_description' => 'required',
             'additional_information' => 'required',
-            'thumbnail' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg'
+            'thumbnail' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg',
             // 'thumbnail' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048'
         ]);
         // return $request->except('_token')+[
         //     'vendor_id' => auth()->id(),
         //     'thumbnail' => 'pic.png'
         // ];
-        $product = Product::create($request->except('_token')+[
-            'vendor_id' => auth()->id()
+        $product = Product::create($request->except('_token') + [
+            'vendor_id' => auth()->id(),
         ]);
         if ($request->hasFile('thumbnail')) {
             $new_name = $product->id.'_'.auth()->id().'_'.time().'.'.$request->file('thumbnail')->getClientOriginalextension();
@@ -72,7 +73,7 @@ class ProductController extends Controller
             $img->save(base_path('public/dashboard/uplaods/product_thumbnail/'.$new_name), 90);
 
             Product::find($product->id)->update([
-                'thumbnail' => $new_name
+                'thumbnail' => $new_name,
             ]);
         }
 
@@ -91,8 +92,10 @@ class ProductController extends Controller
         $last_30_days = ProductViewCount::where('product_id', $product->id)->where('created_at', '>', Carbon::now()->subDays(30))->get();
         $last_7_days = ProductViewCount::where('product_id', $product->id)->where('created_at', '>', Carbon::now()->subDays(7))->get();
         $today = ProductViewCount::where('product_id', $product->id)->where('created_at', '>', Carbon::now()->isToday())->get();
-        return view('dashboard.product.show', compact('product','last_30_days','last_7_days','today'));
+
+        return view('dashboard.product.show', compact('product', 'last_30_days', 'last_7_days', 'today'));
     }
+
     public function product_image_add(Product $product)
     {
         return view('dashboard.product.add_product_image', compact('product'));
@@ -110,7 +113,7 @@ class ProductController extends Controller
             ProductImage::insert([
                 'product_id' => $product->id,
                 'image' => $new_name,
-                'created_at'=> Carbon::now()
+                'created_at' => Carbon::now(),
             ]);
         }
 
@@ -124,6 +127,7 @@ class ProductController extends Controller
 
         return back()->with('success', 'Image Delete Successfully!');
     }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -132,8 +136,9 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        $categories = Category::get(['id','category_name']);
-        return view('dashboard.product.edit', compact('categories','product'));
+        $categories = Category::get(['id', 'category_name']);
+
+        return view('dashboard.product.edit', compact('categories', 'product'));
     }
 
     /**
@@ -154,7 +159,7 @@ class ProductController extends Controller
             'description' => 'required',
             'short_description' => 'required',
             'additional_information' => 'required',
-            'thumbnail' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg'
+            'thumbnail' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg',
         ]);
         $product->update([
             'name' => $request->name,
@@ -164,7 +169,7 @@ class ProductController extends Controller
             'discounted_price' => $request->discounted_price,
             'description' => $request->description,
             'short_description' => $request->short_description,
-            'additional_information' => $request->additional_information
+            'additional_information' => $request->additional_information,
         ]);
         if ($request->hasFile('thumbnail')) {
             unlink(base_path('public/dashboard/uplaods/product_thumbnail/'.$product->thumbnail));
@@ -173,9 +178,10 @@ class ProductController extends Controller
             $img->save(base_path('public/dashboard/uplaods/product_thumbnail/'.$new_name), 90);
 
             $product->update([
-                'thumbnail' => $new_name
+                'thumbnail' => $new_name,
             ]);
         }
+
         return back();
     }
 
@@ -188,11 +194,13 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $product->delete();
+
         return back();
     }
+
     public function restore($product_id)
     {
-         $product = Product::withTrashed()->where('id', $product_id)->restore();
+        $product = Product::withTrashed()->where('id', $product_id)->restore();
         //  $product->restore();
         return back();
     }
@@ -205,11 +213,13 @@ class ProductController extends Controller
             'vendor_id' => auth()->id(),
             'product_id' => $product->id,
         ])->get();
-        return view('dashboard.product.addinventory', compact('product','colors','sizes','inventories'));
+
+        return view('dashboard.product.addinventory', compact('product', 'colors', 'sizes', 'inventories'));
     }
+
     public function addinventory(Product $product, Request $request)
     {
-        $inventory =  Inventory::where([
+        $inventory = Inventory::where([
             'product_id' => $product->id,
             'vendor_id' => auth()->id(),
             'size_id' => $request->size_id,
@@ -226,10 +236,10 @@ class ProductController extends Controller
                 'size_id' => $request->size_id,
                 'color_id' => $request->color_id,
                 'quantity' => $request->quantity,
-                'created_at' => Carbon::now()
+                'created_at' => Carbon::now(),
             ]);
         }
+
         return back();
     }
 }
-

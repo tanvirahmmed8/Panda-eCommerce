@@ -36,7 +36,6 @@ class VariationController extends Controller
      */
     public function store(Request $request)
     {
-
         // Size::insert([
         //     'size' => $request->size,
         //     'vendor_id' => auth()->id(),

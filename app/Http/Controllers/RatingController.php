@@ -20,24 +20,23 @@ class RatingController extends Controller
         $this->middleware('auth');
     }
 
-
-
     public function rating(Request $request)
     {
         $request->validate([
             '*' => 'required',
         ]);
 
-         $product_check = Product::where('id', $request->product_id)->get();
-        if($product_check){
-             $verified_purchase = Invoice::where('invoices.user_id', auth()->id())->join('invoice_details', 'invoices.id', 'invoice_details.invoice_id')->where('invoice_details.product_id', $request->product_id)->first();
-             if ($verified_purchase) {
+        $product_check = Product::where('id', $request->product_id)->get();
+        if ($product_check) {
+            $verified_purchase = Invoice::where('invoices.user_id', auth()->id())->join('invoice_details', 'invoices.id', 'invoice_details.invoice_id')->where('invoice_details.product_id', $request->product_id)->first();
+            if ($verified_purchase) {
                 $rating_check = Rating::where('user_id', auth()->id())->where('product_id', $request->product_id)->first();
                 if ($rating_check) {
                     Rating::where('user_id', auth()->id())->where('product_id', $request->product_id)->update([
                         'rating' => $request->rating,
                         'comment' => $request->comment,
                     ]);
+
                     return back();
                 } else {
                     Rating::insert([
@@ -45,19 +44,16 @@ class RatingController extends Controller
                         'product_id' => $request->product_id,
                         'rating' => $request->rating,
                         'comment' => $request->comment,
-                        'created_at' => Carbon::now()
+                        'created_at' => Carbon::now(),
                     ]);
+
                     return back();
                 }
-
-             } else {
+            } else {
                 return 'You can`t rate this product with out purchase!';
-             }
-
-        }else{
+            }
+        } else {
             return 'Link is broken';
         }
-
-
     }
 }

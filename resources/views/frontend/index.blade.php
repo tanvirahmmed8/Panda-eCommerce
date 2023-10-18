@@ -156,7 +156,7 @@
                                                 <a href="{{ route('single.product', $latest_product->id) }}"><abbr title="{{ $latest_product->name }}">{{ Str::limit($latest_product->name, 10, '...') }}</abbr></a>
                                             </h3>
                                             @php
-                                                $lat_avg = number_format(rating($latest_product->id));
+                                                $lat_avg = number_format(rating($latest_product));
                                             @endphp
                                             <ul class="rating_star ul_li">
                                                 <li>
@@ -310,7 +310,7 @@
                                 @if ($product->discounted_price)
                                 <span class="theme-badge-2">{{ round(100-(($product->discounted_price/$product->regular_price)*100), 2) }}% off</span>
                                 @endif
-                                @if (stock($product->id) < 1)
+                                @if (stock($product) < 1)
                                 <span class="theme-badge" style="left:70%;">out</span>
                                 @endif
                             </div>

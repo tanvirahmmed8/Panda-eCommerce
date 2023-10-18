@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
@@ -11,11 +10,14 @@ class NewAdminMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    protected $creator_name = "";
-    protected $admin_email = "";
-    protected $admin_password = "";
-    protected $admin_name = "";
-    
+    protected $creator_name = '';
+
+    protected $admin_email = '';
+
+    protected $admin_password = '';
+
+    protected $admin_name = '';
+
     /**
      * Create a new message instance.
      *
@@ -36,11 +38,11 @@ class NewAdminMail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('email.newadminadd',[
+        return $this->markdown('email.newadminadd', [
             'creator_name' => $this->creator_name,
             'admin_email' => $this->admin_email,
             'admin_password' => $this->admin_password,
-            'admin_name' => $this->admin_name
+            'admin_name' => $this->admin_name,
         ]);
     }
 }

@@ -2,41 +2,44 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
-use App\Models\User;
 use App\Models\Invoice;
-use Illuminate\Http\Request;
-use Khsing\World\Models\City;
 use App\Models\Invoice_detail;
+use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Khsing\World\Models\Country;
-use PhpParser\Node\Expr\FuncCall;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Khsing\World\Models\City;
+use Khsing\World\Models\Country;
 
 class CustomerController extends Controller
 {
-    public function customer_login_modal(Request $request){
+    public function customer_login_modal(Request $request)
+    {
         $request->validate([
             '*' => 'required',
         ]);
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-           return back()->with('success', 'You are successfully login');
-        }else{
+            return back()->with('success', 'You are successfully login');
+        } else {
             return back()->with('loginerr', 'Oops Invalid Email or Password!');
         }
     }
-    public function customer_login(Request $request){
-        $request->validate([
-            '*' => 'required',
-        ]);
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-           return redirect('home');
-        }else{
-            return back()->with('loginerr', 'Oops Invalid Email or Password!');
-        }
-    }
-    public function customer_register(Request $request){
 
+    public function customer_login(Request $request)
+    {
+        $request->validate([
+            '*' => 'required',
+        ]);
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            return redirect('home');
+        } else {
+            return back()->with('loginerr', 'Oops Invalid Email or Password!');
+        }
+    }
+
+    public function customer_register(Request $request)
+    {
         $request->validate([
             '*' => 'required',
             'password' => 'confirmed|min:8',
@@ -55,9 +58,9 @@ class CustomerController extends Controller
         User::find($id)->sendEmailVerificationNotification();
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             return redirect('home');
-         }else{
-             return back()->with('customer_success', 'Oops Invalid Email or Password!');
-         }
+        } else {
+            return back()->with('customer_success', 'Oops Invalid Email or Password!');
+        }
         //return back()->with('customer_success', 'Your Account Successfully Created! And send a varifacition link on your email!');
     }
 
@@ -67,7 +70,8 @@ class CustomerController extends Controller
         $city = City::find($invoice->customer_city);
         $country = Country::getByCode($invoice->customer_country);
         $invoice_details = Invoice_detail::with('product')->where('invoice_id', $id)->get();
-        $pdf = Pdf::loadView('pdf.invoice', compact('invoice', 'invoice_details','country','city'));
+        $pdf = Pdf::loadView('pdf.invoice', compact('invoice', 'invoice_details', 'country', 'city'));
+
         return $pdf->download(time().'-invoice.pdf');
     }
 }

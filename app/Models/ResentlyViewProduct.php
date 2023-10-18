@@ -9,7 +9,7 @@ class ResentlyViewProduct extends Model
 {
     use HasFactory;
 
-    function product_rel()
+    public function product_rel()
     {
         return $this->hasOne(Product::class, 'id', 'product_id');
     }

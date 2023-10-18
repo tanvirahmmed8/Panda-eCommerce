@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Coupon;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CouponController extends Controller
 {
-     /**
+    /**
      * Create a new controller instance.
      *
      * @return void
@@ -26,6 +26,7 @@ class CouponController extends Controller
     public function index()
     {
         $coupons = Coupon::where('vendor_id', auth()->id())->get();
+
         return view('dashboard.coupon.index', compact('coupons'));
     }
 
@@ -53,11 +54,12 @@ class CouponController extends Controller
             'discount_value' => 'required',
             'minimum_purchase_amount' => 'required',
         ]);
-        $coupon = Str::upper(Str::remove(' ',$request->coupon_code));
-        Coupon::create($request->except(['_token','coupon_code'])+[
+        $coupon = Str::upper(Str::remove(' ', $request->coupon_code));
+        Coupon::create($request->except(['_token', 'coupon_code']) + [
             'vendor_id' => auth()->id(),
-            'coupon_code' => $coupon
+            'coupon_code' => $coupon,
         ]);
+
         return back()->with('success', 'Coupon code successfully added!');
     }
 
@@ -104,6 +106,7 @@ class CouponController extends Controller
     public function destroy(Coupon $coupon)
     {
         $coupon->delete();
+
         return back();
     }
 }

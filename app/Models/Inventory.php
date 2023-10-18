@@ -9,11 +9,12 @@ class Inventory extends Model
 {
     use HasFactory;
 
-    function sizeid()
+    public function sizeid()
     {
         return $this->hasOne(Size::class, 'id', 'size_id');
     }
-    function colorid()
+
+    public function colorid()
     {
         return $this->hasOne(Color::class, 'id', 'color_id');
     }

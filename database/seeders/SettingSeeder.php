@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class SettingSeeder extends Seeder
 {
@@ -56,21 +55,19 @@ class SettingSeeder extends Seeder
         //logo seeder
         DB::table('logos')->insert([
             'logo_key' => 'frontend_header_logo',
-            'created_at' => Carbon::now()
+            'created_at' => Carbon::now(),
         ]);
         DB::table('logos')->insert([
             'logo_key' => 'frontend_footer_logo',
-            'created_at' => Carbon::now()
+            'created_at' => Carbon::now(),
         ]);
         DB::table('logos')->insert([
             'logo_key' => 'backend_logo',
-            'created_at' => Carbon::now()
+            'created_at' => Carbon::now(),
         ]);
         DB::table('logos')->insert([
             'logo_key' => 'fav_icon',
-            'created_at' => Carbon::now()
+            'created_at' => Carbon::now(),
         ]);
-
-
     }
 }
