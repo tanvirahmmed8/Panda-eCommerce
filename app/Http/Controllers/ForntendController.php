@@ -32,13 +32,13 @@ class ForntendController extends Controller
         $categories = Category::all();
         $brands = Brand::where('status', 'active')->get();
         $policeis = Policy::where('status', 'active')->get();
-        //$products = Product::limit(6)->get();
+
         $latest_products = Product::with('ratings')->limit(8)->latest()->get();
         $new_products = Product::with('stock')->limit(4)->latest()->get();
-        // $inventories = Inventory::all();
+
         $random = Product::inRandomOrder()->limit(1)->get();
 
-        // best sell Category start
+
         $top_sales_cat = DB::table('products')
            ->leftJoin('invoice_details', 'products.id', '=', 'invoice_details.product_id')
            ->selectRaw('products.category_id, SUM(invoice_details.quantity) as total')
@@ -52,10 +52,10 @@ class ForntendController extends Controller
             $cat->totalQty = $cc->total;
             $topcats[] = $cat;
         }
-        //return $topcats; //compact
-        // best sell Category end
 
-        // best sell product start
+
+
+
 
         $top_sales = DB::table('products')
             ->leftJoin('invoice_details', 'products.id', '=', 'invoice_details.product_id')
@@ -64,40 +64,40 @@ class ForntendController extends Controller
             ->orderBy('total', 'desc')
             ->take(9)
             ->get();
-        // $products = [];
-        // foreach ($top_sales as $s){
-        //     $p = Product::findOrFail($s->id);
-          //  $p->totalQty = $s->total;
-        //     $products[] = $p;
-        // }
+
+
+
+
+
+
 
         $p = [];
         foreach ($top_sales as $s) {
             $p[] = $s->id;
-            //  $p->totalQty = $s->total;
+
         }
         $products = Product::with(['stock', 'ratings'])->whereIn('id', $p)->get();
-        // dd($products);
-        // return $topProducts; //compact
-        // best sell product end
 
-        // Vehicle::where('created_at', '<', Carbon::now()->subDays(15))->delete();
+
+
+
+
         ResentlyViewProduct::where('created_at', '<', Carbon::now()->subMinutes(300))->delete();
         $resently_view_products = ResentlyViewProduct::where('session_id', Session::get('session_id'))->latest()->limit(6)->get();
 
         if (Cookie::get('suggest_product')) {
-            // $latest_products = Product::limit(8)->latest()->get();
+
             $suggest_products = Product::where('category_id', Cookie::get('suggest_product'))->limit(9)->get();
         } else {
             $suggest_products = collect();
         }
 
-        // banner code
+
         $banners = ProductPromotion::where([
             'type' => 'banner',
             'status' => true,
         ])->get();
-        // promotion code
+
         $promotions = ProductPromotion::where([
             'type' => 'promotion',
             'status' => true,
@@ -115,14 +115,14 @@ class ForntendController extends Controller
             $products = Product::with(['stock', 'ratings'])->paginate(16);
         }
 
-        // $inventories = Inventory::all();
+
         return view('frontend.shop', compact('products', 'search'));
     }
 
     public function search_category($id)
     {
         $products = Product::where('category_id', $id)->paginate(6);
-        // $inventories = Inventory::all();
+
         return view('frontend.search_category', compact('products'));
     }
 
@@ -154,7 +154,7 @@ class ForntendController extends Controller
 
     public function checkoutpost(Request $request)
     {
-        //  return Cart::where('user_id', auth()->id())->first()->vendor_id;
+
         if (session('coupon')) {
             $coupon = session('coupon')->coupon_code;
         } else {
@@ -179,7 +179,7 @@ class ForntendController extends Controller
         ]);
         session(['invoice_id' => $invoice_id]);
         foreach (Cart::where('user_id', auth()->id())->get() as $cart) {
-            // return $cart;
+
             if (Product::find($cart->product_id)->discounted_price) {
                 $unit_price = Product::find($cart->product_id)->discounted_price;
             } else {
@@ -235,16 +235,16 @@ class ForntendController extends Controller
 
     public function team(Request $request)
     {
-        // user device info start
-        // $userAgent = $request->header('User-Agent');
-        // return $userAgent;
-        // user device info end
 
-        // ip location start
-        // $ip = $request->getClientIp();
-        // $location = json_decode(file_get_contents("http://ipinfo.io/{$ip}/json"));
-        // return $location;
-        // ip location end
+
+
+
+
+
+
+
+
+
 
         $teams = Team::paginate(5);
         $teams_count = Team::count();
@@ -282,7 +282,7 @@ class ForntendController extends Controller
                 'email' => 'email',
             ]);
             Mail::to('tanvir@live.com')->send(new ContactMessage($request->except('_token')));
-            //name email subject message
+
             return back()->with('success', 'Your message send Successfully!');
         }
 
@@ -295,7 +295,7 @@ class ForntendController extends Controller
 
        public function teamupdate(Request $request, $id)
        {
-           // return $request;
+
            $team = Team::find($id);
            $team->update([
                'name' => $request->name,
@@ -320,7 +320,7 @@ class ForntendController extends Controller
 
        public function teamdelete($id)
        {
-           //return $id;
+
            if ($id == 'all') {
                Team::where('deleted_at', null)->delete();
 
@@ -356,7 +356,7 @@ class ForntendController extends Controller
     {
         $product = Product::with('ratings')->find($id);
         $related_product = Product::with(['stock', 'ratings'])->where('category_id', $product->category_id)->where('id', '!=', $id)->limit(6)->get();
-        // $inventories = Inventory::all();
+
         $ratings = $product->ratings;
         $rating_sum = $product->ratings->sum('rating');
         if ($ratings->count() > 0) {
@@ -365,16 +365,16 @@ class ForntendController extends Controller
             $avg_rating = 0;
         }
 
-        // Product view count start
+
         ProductViewCount::insert([
             'product_id' => $id,
             'created_at' => Carbon::now(),
         ]);
-        // Product view count end
+
 
         Cookie::queue('suggest_product', $product->category_id, 4300);
 
-        // resently_view_products code start
+
         if (empty(Session::get('session_id'))) {
             $session_id = rand(00000000, 99999999);
         } else {
@@ -393,7 +393,7 @@ class ForntendController extends Controller
                 'created_at' => Carbon::now(),
             ]);
         }
-        // resently_view_products code end
+
 
         return view('frontend.single_product', compact('product', 'related_product', 'ratings', 'avg_rating'));
     }

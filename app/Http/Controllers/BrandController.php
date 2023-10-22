@@ -53,13 +53,13 @@ class BrandController extends Controller
             'brand_logo' => 'required|image',
             'brand_link' => 'required|url',
         ]);
-        //  image part start
+
         $new_name = 'brand'.'_'.auth()->id().'_'.Carbon::now()->format('Y').'_'.time().'.'.$request->file('brand_logo')->getClientOriginalExtension();
         $img = Image::make($request->file('brand_logo'))->resize(344, 60);
         $img->save(base_path('public/dashboard/uplaods/brand_logo/'.$new_name), 90);
-        //  image part end
 
-        //  insert data in databese
+
+
         Brand::insert([
             'brand_logo' => $new_name,
             'brand_link' => $request->brand_link,
@@ -108,7 +108,7 @@ class BrandController extends Controller
         ]);
         if ($request->hasFile('brand_logo')) {
             unlink(base_path('public/dashboard/uplaods/brand_logo/'.$brand->brand_logo));
-            //  image part start
+
             $new_name = 'brand'.'_'.auth()->id().'_'.Carbon::now()->format('Y').'_'.time().'.'.$request->file('brand_logo')->getClientOriginalExtension();
             $img = Image::make($request->file('brand_logo'))->resize(344, 60);
             $img->save(base_path('public/dashboard/uplaods/brand_logo/'.$new_name), 90);
@@ -116,7 +116,7 @@ class BrandController extends Controller
                 'brand_logo' => $new_name,
             ]);
         }
-        // return $brand->brand_logo;
+
         return back()->with('success', 'Brand successfully updated!');
     }
 
